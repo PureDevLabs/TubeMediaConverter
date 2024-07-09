@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Tube Media Converter Documentation</title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="//fonts.googleapis.com/css?family=Raleway:700,300" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/prettify.css">
+<style type="text/css">
+	nav {min-height: 70px !important;}
+	.debian li ul, .ubuntu li:first-child ul {padding-left:0;}
+	.ubuntu li ul, .centos li ul, .debian li ul li {list-style-type:none;}
+	.centos li.spacer {margin-bottom:25px;}
+	.centos li.spacer li {margin:20px 0;}
+	.centos li ul:first-child {list-style-type:circle;}
+	.centos li li li h4 {margin-top:25px;}
+	#faq_container ul {list-style-type:none;}
+	#faq_container ul li {margin:25px 0;}
+	#regular-license {margin-top: 30px;}
+	#extended-license {margin-top: 80px;}
+	.ext-license {margin-bottom: 400px;}
+	.alert {
+		position: relative;
+		padding: .5rem 1rem;
+		margin-bottom: 1rem;
+		border: 1px solid transparent;
+		border-radius: .5rem;
+	}
+	.alert-warning {
+		color: #856404;
+		background-color: #fff3cd;
+		border-color: #ffeeba;
+	}
+	.alert-warning .alert-link {
+		color: #66512c;
+		font-weight: 700;
+	}
+	.alert-danger {
+		color: #a94442;
+		background-color: #f2dede;
+		border-color: #ebccd1;
+	}
+	.alert-danger .alert-link {
+		color: #722726;
+		font-weight: 700;
+	}		
+</style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+<nav>
+	<iframe src="../inc/update.php" style="width:100%;height:100%"></iframe>
+</nav>
+<header>
+  <div class="container">
+    <h2 class="lone-header">Tube Media Converter PHP Script Documentation</h2>
+  </div>
+</header>
+<section>
+  <div class="container">
+    <ul class="docs-nav">
+      <li><strong>Getting Started</strong></li>
+      <li><a href="#requirements" class="cc-active">Requirements</a></li>
+      <li><a href="#features" class="cc-active">Features</a></li>
+      <li class="separator"></li>
+      <li><strong>Server Configuration</strong></li>
+      <li><a href="#debian" class="cc-active">Debian</a></li>
+      <li><a href="#ubuntu" class="cc-active">Ubuntu</a></li>
+      <li><a href="#centos" class="cc-active">CentOS</a></li>
+	  <li><a href="#ipv6" class="cc-active">IPv6 Config</a></li>
+      <li class="separator"></li>
+      <li><strong>Software Installation</strong></li>
+      <li><a href="#youtubeAPI" class="cc-active">Get YouTube API Key</a></li>
+      <li><a href="#youtubeAPIMultiple" class="cc-active">Using Multiple API Keys</a></li>
+      <li><a href="#config" class="cc-active">Configure Settings</a></li>
+      <li><a href="#upload" class="cc-active">Upload Files</a></li>
+	  <li><a href="#cron" class="cc-active">Schedule Cron Job</a></li>
+      <li class="separator"></li>
+      <li><strong>FAQ</strong></li>
+      <li><a href="#blank_page" class="cc-active">Blank page</a></li>
+      <li><a href="#no_video_results" class="cc-active">No video results</a></li>
+      <li><a href="#dns" class="cc-active">DNS error in Config Check</a></li>
+      <li><a href="#download_error" class="cc-active">No download links</a></li>
+      <li><a href="#download_error2" class="cc-active">Download fails</a></li>
+      <li><a href="#template" class="cc-active">How to edit design?</a></li>
+      <li><a href="#files_saved" class="cc-active">Where are files saved?</a></li>
+      <li><a href="#yt-api-quota" class="cc-active">YouTube API quota exceeded</a></li>
+      <li><a href="#yt-captcha" class="cc-active">CAPTCHA and IP blocks</a></li>
+      <li><a href="#yt-blocked" class="cc-active">Country-blocked videos</a></li>
+      <li><a href="#nginx-rewrite" class="cc-active">Nginx URL rewriting</a></li>
+      <li><a href="#language" class="cc-active">Add/Edit language translations</a></li>
+      <li><a href="#api" class="cc-active">How to enable APIs?</a></li>
+      <li><a href="#mp3_cache" class="cc-active">Can I cache MP3 files?</a></li>
+      <li><a href="#copyright" class="cc-active">What about copyright complaints?</a></li>
+      <li class="separator"></li>
+      <li><strong>Support</strong></li>
+      <li><a href="#software-support" class="cc-active">Software Support</a></li>
+      <li class="separator"></li>
+      <li><strong>License</strong></li>
+      <li><a href="#regular-license" class="cc-active">Regular License</a></li>
+      <li class="separator"></li>
+      <li><strong>Changelog</strong></li>
+      <li><a href="#software-changelog" class="cc-active">Software Changelog</a></li>
+    </ul>
+    <div class="docs-content">
+    	<h2> Getting Started</h2>
+      	<p><b>What is Tube Media Converter?</b></p>
+
+	    <p><i>Tube Media Converter is a very fast, high-quality YouTube to MP3 Converter and Video Downloader.</i></p>
+
+    	<h3 id="requirements"></h3>
+		<h2><b>Minimum Requirements</b></h2>
+		<ul><b>
+			<li>Linux Server <i>(All Linux distributions supported)</i></li>
+			<li>Works with any hosting plan* (Cloud, VPS, Dedicated, etc.)</li>
+			<li>Apache or Nginx</li>
+			<li>PHP 7.4, 8.1+</li>
+			<li>PHP exec() and proc_open() functions enabled</li>
+			<li>PHP GD and SimpleXML extensions</li>
+			<li>cURL and PHP cURL extension</li>
+			<li>FFmpeg and libmp3lame codec (<a href="#upload">One-click install</a> available!)</li>
+			<li>Apache's mod_rewrite (<a href="#nginx-rewrite">Nginx rewriting instructions</a>)</li>
+			<li>MySQL/MariaDB and PHP MySQLi extension</li>
+			<li><a href="#aaPanel-Loader">ionCube Loader</a></li>
+			<li><a href="#ipv6">/64 IPv6 block</a> (required for <a href="#config-ipv6">Dynamic IPv6 Generation</a>)</li>
+			<li>Node.js <i>(optional, used only as a fallback)</i></li>
+			<li>YouTube API Key (free, <a href="#api-exceptions">only required for "Top Videos" charts</a>)</li>
+			<li>50 MB Disk Space on Server</li></b>
+		</ul>
+		<p><b>* Note:</b> <i><u>Shared hosting plans no longer supported due to <a href="#config-ipv6">Dynamic IPv6 Generation</a> incompatibility.</u></i></p>
+		<p></p>
+		<h3 id="features">Features</h3>
+		<ul><b>
+			<li>Converts YouTube video to MP3 in milliseconds, at qualities up to 320kbps</li>
+			<li>Leverages the power of <a href="http://ffmpeg.org">FFmpeg</a> to create crisp, clean, quality, video-to-MP3 conversions</li>
+			<li>Downloads YouTube videos directly to MP4, WEBM, MKV, M4A, and 3GP formats</li>
+			<li>Supports the download of HD and Ultra HD video streams (2k, 4k, and 8k), if available</li>
+			<li>Enables website visitors to crop/cut MP3 files by specifying video start and end times</li>
+			<li>Allows users to download all but MP3 formats directly from YouTube, bypassing your server and saving bandwidth</li>
+			<li>Downloads/Converts encrypted YouTube (e.g., Vevo channel) videos</li>
+			<li>Provides the means to optionally <a href="#mp3_cache">cache "popular" MP3 files</a>, significantly reducing the consumption of server resources (primarily CPU and bandwidth)</li>
+			<li>Enables video preview as well as audio playback (via Integrated Music Player) prior to download/conversion</li>
+			<li>Integrates YouTube Search (accepts search term, video page URL, or playlist URL)</li>
+			<li>Displays Top Videos (filterable by Country)</li>
+			<li>Fully optimized for SEO, featuring dynamic Meta and Open Graph tags, dynamic image shares, automatic generation of robots.txt and XML sitemaps, video search URLs/links, and <a href="https://support.google.com/webmasters/answer/81766?hl=en">progressive enhancement</a> to facilitate search bot crawling</li>
+			<li>Includes <a href="#api">2 JSON REST APIs and a Button/Iframe API</a> to facilitate software integration in a variety of use-case scenarios</li>
+			<li>Enables <a href="#language">multi-language support</a> via easy-to-add (and easy-to-edit!) translation files</li>
+			<li>Requires very little disk space because downloaded/converted files are not stored on server (when MP3 caching is disabled)!</li>
+			<li>Effortlessly configure a multitude of software options via an <a href="#config">easy-to-read Config file</a></li>
+			<li>Includes a <a href="#upload">"Config Check" utility</a> to facilitate the software's installation and help resolve any issues with the server configuration</li>
+			<li>Features a simple, one-click installation of FFmpeg, cURL, and/or Node.js (via the included "Config Check" utility)!</li>
+			<li>Facilitates the addition of more pages via common header, footer, and CSS files</li>
+			<li>Employs <a href="#yt-api-quota">"YouTube.com search scraping"</a> by default to minimize or virtually eliminate YouTube API consumption</li>
+			<li>Optionally rotates between <a href="#youtubeAPIMultiple">multiple YouTube API keys</a> to effectively extend API usage limits</li>
+			<li>Automatically caches YouTube API requests (and <a href="#yt-api-quota">"YouTube.com search scraping"</a> results) to even further minimize API consumption, reduce the number of API keys required, and speed up load time of video charts and search results pages</li>
+			<li>Optionally enables the <a href="#config-topmusic">replacement of homepage's "Top Videos" results (per country) with generic homepage design</a> to eliminate associated YouTube API requests (typically, in conjunction with <a href="#config-search">YouTube.com Search Scraping</a>) and speed up homepage load time</li>
+			<li>Optionally 1) <a href="#config-ipv6">regenerates server's primary IP (IPv6) at regular intervals</a> or 2) <a href="#yt-captcha">rotates between multiple outgoing IPs (IPv4)</a> to circumvent temporary YouTube IP bans and/or CAPTCHAs that may occur when 1) scraping YouTube.com for video info/links, 2) scraping YouTube.com for search results, and/or 3) downloading videos.</li>
+			<li>Provides mechanism to <a href="#copyright">block the download/conversion of specific videos</a> at the behest of copyright holders</li>
+			<li>Features a completely "responsive" default design (leveraging the <a href="http://getbootstrap.com/">Bootstrap</a> framework) to provide optimal viewing for ALL device types and sizes!</li>
+			<li>Programmed entirely in easy-to-read PHP OOP (Object Oriented Programming), JavaScript/jQuery, and CSS
+			<li>Enables effortless editing/customization of code</li>
+			<li>Leverages MVC coding principles to enable templating and clear separation of presentation and business logic</li></b>
+		</ul>
+
+		<hr>
+		<h3 id="debian">Server Configuration</h3>
+		<p>When in doubt, have a pro admin or hosting provider install the required dependency packages for you.</p>
+		<p>For the "Do-It-Yourselfers", general command-line instructions (for installing ALL required software dependencies) are available for the following, popular Linux distributions:</p>
+		<p>(<b>Note:</b> <i>These instructions are provided as a convenience and courtesy to you. They are <u>not</u> a substitute for a professional server configuration. Generally, it is not our responsibility to teach you how to install and configure packages on, or administer and maintain, a Linux system.</i>)</p>	
+		<p id="aaPanel-Loader" class="alert alert-danger" style="margin-top:40px"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> <b>Stop!!</b>&nbsp; Before continuing, we <b>strongly recommend</b> installing the free <a href="https://puredevlabs.cc/knowledgebase/1/How-To-Install-aaPanel-Free-Webpanel-incl.-LAMP.html?shop=1" class="alert-link">aaPanel</a> hosting control panel <b>instead of using the command line</b> to achieve a comparable server configuration. aaPanel will also facilitate the installation of the <a href="https://puredevlabs.cc/knowledgebase/5/HowTo-install-ionCube-Loader-in-aaPanel.html?shop=1" class="alert-link">ionCube Loader</a>, another software requirement that <b>must</b> be installed <b>after</b> all other requirements have been met/installed.</p><br />
+
+		<h4>Debian 7 (Wheezy) and Debian 8 (Jessie)</h4>
+
+		<p>Update Sources</p>
+		<pre class="prettyprint lang-html">apt-get update</pre>
+
+		<p>Install Apache Webserver and PHP 5</p>
+		<pre class="prettyprint lang-html">apt-get install apache2 php5</pre>
+
+		<p>Create your Domain Directory</p>
+		<pre class="prettyprint lang-html">mkdir /var/www/YOURDOMAIN.COM</pre>
+
+		<p>Change Domain Directory Owner</p>
+		<pre class="prettyprint lang-html">chown www-data:www-data /var/www/YOURDOMAIN.COM</pre>
+
+		<p>Install text editor "nano"</p>
+		<pre class="prettyprint lang-html">apt-get install nano</pre>
+
+		<p>Create Apache vHost</p>
+		<pre class="prettyprint lang-html">nano /etc/apache2/sites-enabled/YOURDOMAIN.COM.conf</pre>
+
+		<p>Add the following to the file (via nano), then Press <i>Ctrl + O</i> to save the file and <i>Ctrl + X</i> to close the nano editor:</p>
+		<pre class="prettyprint lang-html">&#x3C;VirtualHost *:80&#x3E;
+	DocumentRoot "/var/www/YOURDOMAIN.COM"
+	ServerName YOURDOMAIN.COM
+	ErrorLog ${APACHE_LOG_DIR}/error_YOURDOMAIN.log<br />
+	&#x3C;Directory /var/www/YOURDOMAIN.COM&#x3E;
+		AllowOverride All
+	&#x3C;/Directory&#x3E;
+&#x3C;/VirtualHost&#x3E;</pre>
+
+		<p>Enable Apache's "mod_rewrite"</p>
+		<pre class="prettyprint lang-html">a2enmod rewrite<br />/etc/init.d/apache2 restart</pre>
+
+		<p>Install GD PHP Extension </p>
+		<pre class="prettyprint lang-html">apt-get install php5-gd</pre>
+
+		<p>Install cURL and cURL PHP Extension</p>
+		<pre class="prettyprint lang-html">apt-get install curl php5-curl</pre>
+
+		<p class="alert alert-warning" style="margin-top:40px"><i class="fa fa-info-circle" aria-hidden="true"></i> <b>Note:</b> The following steps are <b>optional</b>. The software already has a built-in FFmpeg auto-installer!</p>
+
+		<p>Add Debian Multimedia Repo Sources List for FFmpeg and Codecs</p>
+		<pre class="prettyprint lang-html">nano /etc/apt/sources.list.d/deb-multimedia.org.list</pre>
+		<p>Add the following to the file (via nano):</p>
+		<ul class="debian">
+			<li>For Debian 7 (Wheezy)
+				<ul>
+					<li>
+						<pre class="prettyprint lang-html"># Debian Multimedia Repository <br />deb http://www.deb-multimedia.org wheezy main non-free <br />deb http://www.deb-multimedia.org wheezy-backports main</pre>
+					</li>
+				</ul>
+			</li>
+			<li>For Debian 8 (Jessie)
+				<ul>
+					<li>
+						<pre class="prettyprint lang-html"># Debian Multimedia Repository <br />deb http://www.deb-multimedia.org jessie main non-free <br />deb http://www.deb-multimedia.org jessie-backports main</pre>
+					</li>
+				</ul>
+			</li>
+			<li>Press <i>Ctrl + O</i> to save the file</li>
+			<li>Press <i>Ctrl + X</i> to close the nano Editor</li>
+		</ul>
+
+		<p>Update Sources</p>
+		<pre class="prettyprint lang-html">apt-get update</pre>
+
+		<p>Install "deb-multimedia-keyring"</p>
+		<pre class="prettyprint lang-html">apt-get install deb-multimedia-keyring</pre>
+
+		<p>Update Sources</p>
+		<pre class="prettyprint lang-html">apt-get update</pre>
+		<p>Install FFmpeg</p>
+		<pre class="prettyprint lang-html">apt-get install ffmpeg</pre>
+
+		<br />
+		<h4 id="ubuntu">Ubuntu 12.04, Ubuntu 14.04, and Ubuntu 16.04</h4>
+
+		<p>Update Sources</p>
+		<pre class="prettyprint lang-html">sudo apt-get update</pre>
+
+		<p>Install Apache Webserver and PHP</p>
+		<ul class="ubuntu">
+			<li>For Ubuntu 12.04 and 14.04
+				<ul>
+					<li><pre class="prettyprint lang-html">sudo apt-get install apache2 php5</pre></li>
+				</ul>
+			</li>
+			<li>For Ubuntu 16.04
+				<ul style="padding-left:0">
+					<li><pre class="prettyprint lang-html">sudo apt-get install apache2 php7.0</pre></li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>Create your Domain Directory</p>
+		<pre class="prettyprint lang-html">sudo mkdir /var/www/YOURDOMAIN.COM</pre>
+
+		<p>Change Domain Directory Owner</p>
+		<pre class="prettyprint lang-html">sudo chown www-data:www-data /var/www/YOURDOMAIN.COM</pre>
+
+		<p>Install text editor "nano"</p>
+		<pre class="prettyprint lang-html">sudo apt-get install nano</pre>
+
+		<p>Create Apache vHost</p>
+		<pre class="prettyprint lang-html">sudo nano /etc/apache2/sites-enabled/YOURDOMAIN.COM.conf</pre>
+
+		<p>Add the following to the file (via nano), then Press <i>Ctrl + O</i> to save the file and <i>Ctrl + X</i> to close the nano editor:</p>
+		<pre class="prettyprint lang-html">&#x3C;VirtualHost *:80&#x3E;
+	DocumentRoot "/var/www/YOURDOMAIN.COM"
+	ServerName YOURDOMAIN.COM
+	ErrorLog ${APACHE_LOG_DIR}/error_YOURDOMAIN.log<br />
+	&#x3C;Directory /var/www/YOURDOMAIN.COM&#x3E;
+		AllowOverride All
+	&#x3C;/Directory&#x3E;
+&#x3C;/VirtualHost&#x3E;</pre>
+
+		<p>Enable Apache's "mod_rewrite"</p>
+		<pre class="prettyprint lang-html">sudo a2enmod rewrite<br />sudo /etc/init.d/apache2 restart</pre>
+
+		<p>Install GD PHP Extension </p>
+		<ul class="ubuntu">
+			<li>For Ubuntu 12.04 and 14.04
+				<ul>
+					<li><pre class="prettyprint lang-html">sudo apt-get install php5-gd</pre></li>
+				</ul>
+			</li>
+			<li>For Ubuntu 16.04
+				<ul style="padding-left:0">
+					<li><pre class="prettyprint lang-html">sudo apt-get install php7.0-gd</pre></li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>Install cURL and cURL PHP Extension</p>
+		<ul class="ubuntu">
+			<li>For Ubuntu 16.04
+				<ul>
+					<li><pre class="prettyprint lang-html">sudo apt-get install curl php7.0-curl</pre></li>
+				</ul>
+			</li>
+			<li>For Ubuntu 12.04 and 14.04
+				<ul style="padding-left:0">
+					<li><pre class="prettyprint lang-html">sudo apt-get install curl php5-curl</pre></li>
+				</ul>
+			</li>
+			<li>For Ubuntu 12.04
+				<ul>
+					<li>
+						<p>Open '/etc/php5/apache2/php.ini' and add this line</p>
+						<pre class="prettyprint lang-html">extension=curl.so</pre>
+					</li>
+					<li>
+						<p>Restart Apache</p>
+						<pre class="prettyprint lang-html">sudo /etc/init.d/apache2 restart</pre>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<p class="alert alert-warning" style="margin-top:40px"><i class="fa fa-info-circle" aria-hidden="true"></i> <b>Note:</b> The following steps are <b>optional</b>. The software already has a built-in FFmpeg auto-installer!</p>
+
+		<p>Install FFmpeg</p>
+		<ul class="ubuntu">
+			<li>For Ubuntu 12.04 and 16.04
+				<ul>
+					<li><pre class="prettyprint lang-html">sudo apt-get install ffmpeg</pre></li>
+				</ul>
+			</li>
+			<li>For Ubuntu 14.04
+				<ul>
+					<li>
+						<p>Add FFmpeg Repo</p>
+						<pre class="prettyprint lang-html">sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next</pre>
+					</li>
+					<li>
+						<p>Update Sources</p>
+						<pre class="prettyprint lang-html">sudo apt-get update</pre>
+					</li>
+					<li>
+						<p>Install FFmpeg</p>
+						<pre class="prettyprint lang-html">sudo apt-get install ffmpeg</pre>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<br />
+		<h4 id="centos">CentOS 6.x and CentOS 7.x</h4>
+
+		<p>Install Apache</p>
+		<pre class="prettyprint lang-html">yum install httpd</pre>
+
+		<p>Install wget & gcc</p>
+		<pre class="prettyprint lang-html">yum install wget gcc</pre>
+
+		<p>Install epel repo</p>
+		<ul class="debian">
+			<li>For CentOS 6.x
+				<ul>
+					<li><pre class="prettyprint lang-html">wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm <br />rpm -Uvh epel-release-6-8.noarch.rpm</pre></li>
+				</ul>
+			</li>
+			<li>For CentOS 7.x
+				<ul>
+					<li><pre class="prettyprint lang-html">wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm <br />rpm -Uvh epel-release-7-11.noarch.rpm</pre></li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>Install PHP and the cURL and GD PHP extensions</p>
+		<pre class="prettyprint lang-html">yum install php php-devel php-gd php-common</pre>
+
+		<p>Enable mod_rewrite</p>
+		<pre class="prettyprint lang-html">nano /etc/httpd/conf.modules.d/00-base.conf</pre>
+		<ul class="debian">
+			<li>Add or uncomment the following line:
+				<ul>
+					<li><pre class="prettyprint lang-html">LoadModule rewrite_module modules/mod_rewrite.so</pre></li>
+				</ul>
+			</li>
+		</ul>
+
+		<p>Create Apache vHost</p>
+		<pre class="prettyprint lang-html">nano /etc/httpd/sites-available/YOURDOMAIN.COM.conf</pre>
+
+		<p>Add the following to the file (via nano), then Press <i>Ctrl + O</i> to save the file and <i>Ctrl + X</i> to close the nano editor:</p>
+		<pre class="prettyprint lang-html">&#x3C;VirtualHost *:80&#x3E;
+	DocumentRoot "/var/www/YOURDOMAIN.COM"
+	ServerName YOURDOMAIN.COM
+	ErrorLog ${APACHE_LOG_DIR}/error_YOURDOMAIN.log<br />
+	&#x3C;Directory /var/www/YOURDOMAIN.COM&#x3E;
+		AllowOverride All
+	&#x3C;/Directory&#x3E;
+&#x3C;/VirtualHost&#x3E;</pre>
+
+		<p>Restart Apache</p>
+		<pre class="prettyprint lang-html">/etc/init.d/httpd restart</pre>
+
+		<p class="alert alert-warning" style="margin-top:40px"><i class="fa fa-info-circle" aria-hidden="true"></i> <b>Note:</b> The following steps are <b>optional</b>. The software already has a built-in FFmpeg auto-installer!</p>
+
+		<p>Install FFmpeg</p>
+		<ul class="centos">
+			<li class="spacer">Download a precompiled version of FFmpeg
+				<ul>
+					<li>If you want a precompiled version of FFmpeg + codecs for your CentOS server, then you can <a href="https://www.johnvansickle.com/ffmpeg/">download a recent static build of FFmpeg here.</a></li>
+					<li>Use the x86_64 build for 64-bit servers and the x86 build for 32-bit servers.</li>
+					<li>Decompress the corresponding tar.xz distribution, and locate the 'ffmpeg' binary file.</li>
+					<li>To install this build, simply upload the 'ffmpeg' binary file to your "/usr/bin" directory and change permissions of the file to chmod 0755 or higher. And, presto, you have a fully-functioning CentOS build of FFmpeg + codecs, compatibile with our software, that you did not have to compile yourself!</li>
+				</ul>
+			</li>
+			<li><i>OR,</i> Compile FFmpeg from source
+				<ul>
+					<li>
+						<p>Get the dependencies</p>
+						<pre class="prettyprint lang-html">yum install autoconf automake gcc-c++ libtool make nasm pkgconfig zlib-devel git</pre>
+					</li>
+					<li>
+						<p>Make a directory in “/root/” to put all of the source code into:</p>
+						<pre class="prettyprint lang-html">cd /root <br />mkdir ~/ffmpeg_sources</pre>
+					</li>
+					<li><p>Build/Install FFmpeg and codecs as follows</p>
+						<ul>
+							<li>
+								<h4>Yasm</h4>
+								<pre class="prettyprint lang-html">cd ~/ffmpeg_sources <br />curl -O http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz <br />tar xzvf yasm-1.2.0.tar.gz <br />cd yasm-1.2.0 <br />./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" <br />make <br />make install <br />make distclean <br />export "PATH=$PATH:$HOME/bin"</pre>
+							</li>
+							<li>
+								<h4>libmp3lame</h4>
+								<p>MP3 audio encoder. <br />Requires FFmpeg to be configured with --enable-libmp3lame</p>
+								<pre class="prettyprint lang-html">cd ~/ffmpeg_sources <br />curl -L -O http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz <br />tar xzvf lame-3.99.5.tar.gz <br />cd lame-3.99.5 <br />./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --disable-shared --enable-nasm <br />make <br />make install <br />make distclean</pre>
+							</li>
+							<li>
+								<h4>FFmpeg</h4>
+								<pre class="prettyprint lang-html">cd ~/ffmpeg_sources <br />git clone --depth 1 git://source.ffmpeg.org/ffmpeg <br />cd ffmpeg <br />PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" <br />export PKG_CONFIG_PATH <br />./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --bindir="$HOME/bin" --extra-libs=-ldl --enable-gpl --enable-nonfree --enable-libmp3lame <br />make <br />make install <br />make distclean <br />hash -r <br />. ~/.bash_profile</pre>
+							</li>
+							<li>
+								<p>After all of this, FFmpeg will be compiled into "/root/bin/ffmpeg".</p>
+							</li>
+							<li>
+								<p>Move the FFmpeg binary file from “/root/bin/ffmpeg” to “/usr/bin/ffmpeg”. Then set permissions of “/usr/bin/ffmpeg” to chmod 0777.</p>
+								<pre class="prettyprint lang-html">mv /root/bin/ffmpeg /usr/bin/ffmpeg<br />chmod 0777 /usr/bin/ffmpeg</pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<br />
+		<h4 id="ipv6">IPv6 Config (for <a href="#config-ipv6">Dynamic IPv6 Generation</a>)</h4>
+
+		<p>First, verify that IPv6 is working on your server by trying to ping Google:</p>
+		<pre class="prettyprint lang-html">root@demo-cloud:~# ping -6 google.com</pre>
+
+		<p>If you see the following output, then IPv6 is <b>working</b>:</p>
+		<pre class="prettyprint lang-html">root@demo-cloud:~# ping -6 google.com
+PING google.com(fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e)) 56 data bytes
+64 bytes from fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e): icmp_seq=1 ttl=116 time=6.69 ms
+64 bytes from fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e): icmp_seq=2 ttl=116 time=5.19 ms
+64 bytes from fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e): icmp_seq=3 ttl=116 time=5.20 ms
+64 bytes from fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e): icmp_seq=4 ttl=116 time=5.25 ms
+64 bytes from fra07s29-in-x200e.1e100.net (2a00:1450:4001:802::200e): icmp_seq=5 ttl=116 time=5.24 ms
+^C
+--- google.com ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4004ms
+rtt min/avg/max/mdev = 5.191/5.512/6.685/0.586 ms
+root@demo-cloud:~#</pre>
+
+		<p>However, if you see the output below, then IPv6 is <b>not working</b>. In this case, please contact your Server/Hosting Provider for assistance with your IPv6 configuration.</p>
+		<pre class="prettyprint lang-html">root@demo-cloud:~# ping -6 google.com
+ping: connect: Network is unreachable</pre>
+
+		<p>Next, ensure that you have a <b>/64 IPv6 subnet</b> configured. (E.g., a /128 IPv6 subnet will not work!) Generally speaking, /64 is a standard size IPv6 subnet, and an ISP typically assigns a /64 or smaller subnet to establish service on their WAN (wide area network). Again, you can contact your Server/Hosting Provider for additional assistance.</p>
+
+		<p>Finally, as a convenience for you, the following <b>example</b> demonstrates an IPv6 configuration on a <a href="https://www.hetzner.com/dedicated-rootserver">Hetzner Dedicated Server</a> (using Debian / Ubuntu 22.04+):</p>
+		<ul class="centos">
+			<li class="spacer">If IPv6 config is not yet present in <b>/etc/network/interfaces</b>, update the following:
+			<pre class="prettyprint lang-html">iface &#x3C;INTERFACE_NAME&#x3E; inet6 static
+address &#x3C;IPv6 Subnet Prefix&#x3E;::2
+netmask 64
+gateway fe80::1</pre>
+			Replace <b>&#x3C;INTERFACE_NAME&#x3E;</b> and <b>&#x3C;IPv6 Subnet Prefix&#x3E;</b> with your real Interface Name and IPv6 Prefix, respectively.</li>
+			<li>After configuration, restart the Networking service or do a full server reboot.
+			<pre class="prettyprint lang-html">root@demo-cloud:~# service networking restart</pre>
+			</li>
+			<li>For further guidance, please review <a href="https://docs.hetzner.com/robot/dedicated-server/network/net-config-debian-ubuntu#ipv4--ipv6">Hetzner's related documentation</a>.</li>
+		</ul>	
+
+		<hr />
+		<h3>Software Installation</h3>
+		<h4 id="youtubeAPI">Get YouTube API Key</h4>
+		<p>1. Navigate to the <a href="https://console.developers.google.com">Google Developers Console</a> and click "Create Project".</p>
+		<p><img src="img/1.png" alt="" /></p>
+		<p>2. Enter a Project Name and click the "Create" button.</p>
+		<p><img src="img/2.png" alt="" /></p>
+		<p>3. Click on the "YouTube Data API" link.</p>
+		<p><img src="img/3.png" alt="" /></p>
+		<p>4. Click the "Enable" button.</p>
+		<p><img src="img/4.png" alt="" /></p>
+		<p>5. Click the "Go to Credentials" button.</p>
+		<p><img src="img/5.png" alt="" /></p>
+		<p>6. Select "Web server" from the "Where will you be calling the API from?" menu, select "Public data" for "What data will you be accessing?", and then click the "What credentials do I need?" button.</p>
+		<p><img src="img/6.png" alt="" /></p>
+		<p>7. Copy and save your API key to a safe place, and then click the "Restrict key" link.</p>
+		<p><img src="img/7.png" alt="" /></p>
+		<p>8. For "Key restriction", choose "None", and then click the Save button. (<b>Note:</b> It may take up to 5 minutes for the API key settings to take effect. So, <u>please wait at least 5 minutes before running the software's <a href="#upload">"Config Check" utility</a></u>, to ensure that the "YouTube API Keys" test passes!)</p>
+		<p><img src="img/8.png" alt="" /></p>
+
+		<hr />
+
+		<h4 id="youtubeAPIMultiple">Using Multiple API Keys</h4>
+		<p>You may use one or more YouTube API keys with this software. While <u><a href="#yt-api-quota">"YouTube.com search scraping"</a> will dramatically reduce API consumption</u>, the use of multiple keys can serve as a supplemental means to effectively extend the daily API quota/limit.</p>
+		<p>A new, separate Google account should be created for each new API key that you use with this software. For each Google account, please follow the provided <a href="#youtubeAPI">instructions for generating a YouTube API key</a>.
+		<p>Your API key(s) must be inserted into the <a href="#config-youtubeAPI">$_youtubeApiKeys array in "lib/Config.php"</a>. If you supply multiple keys, then one key is randomly selected from this array per request.</p>
+
+		<hr />
+
+		<h4 id="config">Configure Settings</h4>
+		<p>Unpack/Unzip the distribution file, open "<b>lib/Config.php</b>", and edit:</p>
+		<br />
+		<h4><u>Required Settings</u></h4>
+		<p id="config-dbase">Update MySQL database credentials</p>
+		<pre class="prettyprint">// Database login info for ALL database tables
+// E.g., for IP Rotation (see below)
+const _SERVER = 'localhost';
+const _DB_USER = 'DATABASE_USER';
+const _DB_PASSWORD = 'DATABASE_PASSWORD';
+const _DATABASE = 'DATABASE_NAME';</pre>
+
+		<p>Set the FFmpeg path</p>
+		<pre class="prettyprint">// FFmpeg Server Path - usually "/usr/bin/ffmpeg" or "/usr/local/bin/ffmpeg"<br />const _FFMPEG_PATH = "/usr/bin/ffmpeg";</pre>
+
+		<p>Set the cURL path</p>
+		<pre class="prettyprint">// cURL Server Path<br />const _CURL_PATH = "/usr/bin/curl";</pre>
+
+		<p id="config-youtubeAPI">Set your <a href="#youtubeAPI">YouTube API Key</a> or <a href="#youtubeAPIMultiple">Keys</a></p>
+		<pre class="prettyprint">// YouTube API Keys (Get API Keys from https://console.developers.google.com and/or review '/docs/#youtubeAPI' and '/docs/#youtubeAPIMultiple').
+// You may have one or more API keys. If you have multiple keys, then one is randomly selected from the array per request.
+// The use of multiple keys enables you to effectively extend the daily API quota/limit and is recommended for sites with moderate-to-heavy traffic.
+public static $_youtubeApiKeys = array(
+	"123abc456dfg789HiJkL0",
+	"0LkJiH987gfd654cba321"
+);</pre>
+
+		<p>Set the App Root directory</p>
+		<pre class="prettyprint">// The root directory and location of the application, relative to the web root.<br />const _APPROOT = '/';  // Directory names must be preceded and followed by a '/'. A value of '/' indicates the web root directory.</pre>
+		<br />
+
+		<h4><u>Advanced Settings</u></h4>
+		<p>Website Name (appears in navbar)</p>
+		<pre class="prettyprint">// Website Name (appears in navbar)<br />const _WEBSITE_NAME = "MyConverterSite";</pre>
+
+		<p>Website Domain (appears in footer and downloaded/converted file name branding)</p>
+		<pre class="prettyprint">// Website Domain (appears in footer and downloaded/converted file name branding)<br />const _WEBSITE_DOMAIN = "MyConverterSite.com";</pre>
+
+		<p>Set Website Interface and Access Control (e.g., if you only need API interface)</p>
+		<pre class="prettyprint">// Access Control and Interface for website
+// This constant accepts 3 possible values: "web", "api", or "hybrid".
+// 1) When set to "web", the default front-end website interface displays. If either or both APIs are "publicly" enabled (see Config::$_apiAllowedDomains, below), then an additional "API" instructions page is visible in site menu links.
+// 2) When set to "api", access to front-end website interface is disabled completely, and only direct API access is allowed.
+// 3) When set to "hybrid", and either or both APIs are "publicly" enabled (see Config::$_apiAllowedDomains, below), then the default front-end website interface is replaced with an alternate interface that consists of only API, FAQ, and Contact pages. (The "API" instructions page serves as the homepage.) If neither API is "publicly" enabled, then the "hybrid" value behaves the same as "web"!
+// See Config::$_apiAllowedDomains, below, to regulate and whitelist API access
+const _WEBSITE_INTERFACE = 'web';</pre>
+
+		<p>Active Site Template ("default", "default-alt", "xeon", and "xeon-alt" templates are available)</p>
+		<pre class="prettyprint">// Template Folder Name
+const _TEMPLATE_NAME = "default"; // "default", "default-alt", "xeon", and "xeon-alt" templates are available</pre>
+
+		<p>Default Language <i><b>(Must be included in <a href="#language">"app/Languages/index.php"</a>!)</b></i></p>
+		<pre class="prettyprint">// Default Website Language<br />const _DEFAULT_LANGUAGE = "en";  // You MUST choose from available languages in "app/Languages/index.php"</pre>
+
+		<p id="config-topmusic">Enable/Disable Top Videos results per country on homepage, supplementing <a href="#yt-api-quota">YouTube.com Search Scraping</a></p>
+		<pre class="prettyprint">// When true, Top Videos results for all countries listed in the Config::$_countries array are enabled and displayed on the homepage.
+// When false, these results are replaced with generic, placeholder markup that can be modified further in the active Template and Language translation files.
+// (Note: Disabling this feature will 1) reduce or eliminate YouTube API consumption, especially in conjunction with YouTube.com Search Scraping options below, and 2) speed up homepage load time.)
+const _ENABLE_TOP_MUSIC_PER_COUNTRY = true;</pre>
+
+		<p>Default "Country Group", e.g., "Americas", "Europe", or Add Your Own <i><b>(Required for Charts feature!)</b></i></p>
+		<pre class="prettyprint">// Default "Country Group"
+// Value can be a continent name or any name that you choose to categorize a group of countries in the Config::$_countries array.
+// The default available values are "Africa", "Asia", "Americas", "Europe", and "Oceania".<br />const _DEFAULT_COUNTRY_GROUP = "Americas";</pre>
+
+		<p>Default Country <i><b>(Must be within the Default "Country Group"!)</b></i></p>
+		<pre class="prettyprint">// Default Country<br />// Must be a valid, lowercase, ISO 3166-1 alpha-2 country code<br />// Scroll down to $_countries array to see default list of available countries.<br />const _DEFAULT_COUNTRY = "us"; </pre>
+
+		<p>Video Results per Page (number of initial results and results returned by "Load more videos" button)</p>
+		<pre class="prettyprint">// Number of additional video results returned when the "Load more videos" button is clicked
+// (FYI - Maximum number of "total possible" search results is 50 !!)
+// (Note: This value is also used when search results are obtained via YouTube.com search scraping instead of the YouTube API!)
+const _RESULTS_PER_PAGE = 5;</pre>
+
+		<p id="config-search">Leverage <a href="#yt-api-quota">YouTube.com Search Scraping</a> instead of the YouTube API for some (or nearly all!) requests</p>
+		<pre class="prettyprint">// Enable YouTube.com Search Scraping
+const _ENABLE_SEARCH_SCRAPING = true; // When true, search results are generated by "scraping" search results directly from YouTube's website, thereby replacing ALL requests to YouTube's "search" API endpoint. Since requests to this endpoint consume the most YouTube API "units", this setting effectively extends the daily quota of your YouTube API key(s), your key(s) will last much longer, and significantly less keys are required for busy sites. By default, search scraping leverages ONLY the primary server IP. Optionally, and alternatively, you can instead enable IP rotation (by setting _ENABLE_IP_ROTATION_FOR_SEARCH to true and using IPs in the _DB_IPS_TABLE2 database table, below) for YouTube.com search scraping requests.
+const _SEARCH_SCRAPING_POPULATES_VID_INFO = false; // When true, and _ENABLE_SEARCH_SCRAPING is also true, search results will be populated with video data derived directly from YouTube.com search scraping, thereby eliminating YouTube API requests that would otherwise be made to BOTH the "search" AND "videos" endpoints. Minor and/or infrequent exceptions include "Top Videos" charts, playlist searches, and scraped video page URL searches that return no results (which still rely on requests to the YouTube API's "videos", "playlistItems", and "videos" endpoints, respectively). Thus, this setting ensures that the vast majority of keyword searches uses no YouTube API "units", further reducing (and nearly eliminating) API consumption.</pre>
+
+		<p>Enable YouTube Direct download (download directly from YouTube servers)</p>
+		<pre class="prettyprint">// Enable YouTube Direct download (true = enabled, false = disabled)
+const _YOUTUBE_DIRECT_DOWNLOAD = true;</pre>
+
+		<p>Fine-tune SEO linking strategy (including XML sitemaps)</p>
+		<pre class="prettyprint">// Enable/Disable video title links in search results 
+const _ENABLE_VIDEO_LINKS = true;
+// Enable/Disable all search query links, including video tag links in search results
+const _ENABLE_SEARCH_LINKS = true;
+
+// When true, "dynamic" sitemaps containing links to popular videos are automatically created for each supported country (see Config::$_countries array, below)
+// These sitemaps supplement a basic sitemap that contains only "static" page links (see Config::$_sitemapStaticPages array, below)
+const _ENABLE_DYNAMIC_SITEMAPS = true;
+
+// Add/Remove page names to automatically populate a sitemap containing ONLY static pages
+// Static page examples include the homepage, FAQ page, API page (if enabled), and Contact page
+// Different language versions/URLS of/for each static page are automatically added to the sitemap
+// Note: If this array is empty, then the sitemap is NOT generated!
+public static $_sitemapStaticPages = array(
+	'@index', // i.e., homepage
+	'@faq',
+	//'@developer', // i.e., API page
+	'@contact'
+);</pre>		
+
+		<p>Facebook widget settings</p>
+		<pre class="prettyprint">const ENABLE_FACEBOOK_LIKE_BOX = true; // Enable or disable Facebook Like Box in Sidebar
+const FACEBOOK_PAGE_NAME = "facebook";  // E.g., https://facebook.com/{Facebook page name}</pre>
+
+		<p>Sharing Buttons (ShareThis widget) settings</p>
+		<pre class="prettyprint">// Social sharing buttons (ShareThis) settings
+// Visit https://sharethis.com/platform/share-buttons/ to create an account and generate buttons
+// You must select "Inline Share Buttons" Tool Type from the ShareThis configurator
+// _ADDTHIS_SCRIPT_URL and _ADDTHIS_CSS_CLASS values can be extracted from generated button codes
+const _ENABLE_ADDTHIS_WIDGET = false;
+const _ADDTHIS_SCRIPT_URL = "WIDGET_SCRIPT_URL";
+const _ADDTHIS_CSS_CLASS = "sharethis-inline-share-buttons";</pre>
+
+		<p id="simulated-mp3">Enable "Simulated MP3" (to generate MP3 files without FFmpeg)</p>
+		<pre class="prettyprint">// Enable MP3 downloads "without" requiring FFmpeg conversion, dramatically reducing CPU resource consumption and ideal for servers/hosting plans with limited resources!
+// When enabled, "all" MP3 qualities (defined in Config::$_mp3Qualities, below) result in the download of the highest-quality, Audio-Only DASH stream available (usually 160kb), and the subsequent audio files' extension is renamed to .mp3.
+// Note: The resulting MP3 files will lack file metadata (e.g., bitrate, duration, track info, etc.) and may not be playable in all audio players. 
+// Note: If multiple MP3 qualities are defined in Config::$_mp3Qualities, then "all" qualities will download the "same" file (regardless of the advertised bitrate). If this is undesirable, then you can 1) eliminate all but one quality from Config::$_mp3Qualities and 2) set the remaining quality to whatever bitrate number suits you.
+const _ENABLE_SIMULATED_MP3 = false;</pre>
+
+		<p id="config-apis">Enable/Disable <a href="#api">JSON and/or Button/Iframe APIs</a></p>
+		<pre class="prettyprint">// List of domains and/or IP addresses, separated by commas, that are allowed access to the JSON, Button, and JSON "Search" APIs.
+// In general, for all APIs, add IP address for PHP consumption and domain for AJAX/HTML consumption.
+// If a domain/IP needs access to multiple APIs, then it must be included in each of the corresponding 'json', 'button', and/or 'search' subarrays!
+// If the 'json', 'button', or 'search' subarray is empty, then this enables unrestricted, public access to the corresponding API.
+// Do NOT prepend domains/IPs with 'http://' or 'https://'!!
+// Do NOT prepend domains with 'www' or any other subdomain!!
+// IMPORTANT: When using the JSON "Search" API, "both" the _ENABLE_SEARCH_SCRAPING "and" _SEARCH_SCRAPING_POPULATES_VID_INFO constant values (see the "YouTube.com Search Scraping" section above) MUST be set to true in order to eliminate 99.99% of potential YouTube API consumption!!
+public static $_apiAllowedDomains = array(
+	'json' => array(
+		// These are examples. Replace as needed.
+		'localhost',
+		'mysite.com',
+		'123.45.6.789',
+		'anothersite.com',
+		'187.65.4.321'
+	),
+	'button' => array(
+		// These are examples. Replace as needed.
+		'localhost',
+		'mysite.com',
+		'123.45.6.789',
+		'anothersite.com',
+		'187.65.4.321'
+	),
+	'search' => array(
+		// These are examples. Replace as needed.
+		'localhost',
+		'mysite.com',
+		'123.45.6.789',
+		'anothersite.com',
+		'187.65.4.321'
+	)
+);</pre>
+
+		<p>Set Available MP3 Qualities</p>
+		<pre class="prettyprint">// Available MP3 Qualities, in kbps
+// Add/Remove values as needed
+// These values are uniformly applied to default website interface "and" included APIs
+public static $_mp3Qualities = array(320, 256, 192, 128, 64);</pre>
+
+		<p id="config-cache">Configure <a href="#mp3_cache">MP3 File Caching</a></p>
+		<pre class="prettyprint">// MP3 Caching Constants
+const _CACHE_FILES = false;  // When true, IF a given MP3 file has been converted before AND it is still stored on the server, then the file is delivered directly from the server rather than being downloaded/converted again. This establishes a MP3 file cache on your server, which can significantly save server resources (i.e., bandwidth used for downloading and CPU used for FFmpeg conversions). Note: Only MP3 files are cached at this time because only MP3 downloads require FFmpeg.
+const _CACHE_AFTER_X = 2;  // The number of times (greater than zero!!) that a video can be converted to any quality MP3 before it is eventually saved to the cache. (DO NOT set this value to zero!!) E.g., a value of 5 saves an MP3 in the cache after 5 downloads of the same video. This setting ensures that only "more popular" files are cached, which subsequently ensures more efficient use of available cache space (and a generally more effective cache).
+const _MAX_ALLOWED_DURATION_DIFFERENCE = 2;  // Value, measured in seconds, used to determine and delete incomplete files in your cache (when caching is enabled). I.e., YouTube's reported video duration is compared to the duration of the cached file on your server. If the difference in durations is more than _MAX_ALLOWED_DURATION_DIFFERENCE seconds, then the corresponding cached file is 1) deemed "incomplete" and 2) deleted from your server.
+const _MAX_CACHE_SIZE = 100000000;  // The maximum size, in KB, that the cache folder size can become before the oldest cached files are deleted (via "inc/schedule.php" cron job). Note: Because file deletions are performed as a regularly scheduled task on the server, the actual size of the cache folder may exceed this value between scheduled tasks. So, it is IMPORTANT that this value is set to significantly lower than the actual space available for the cache folder on the hard drive! You can further mitigate this issue by increasing the _CACHE_SIZE_BUFFER constant value, running the scheduled task more often, and/or ensuring that you always have plenty of unused, available hard disk space.
+const _CACHE_SIZE_BUFFER = 1000000;  // If the cache folder size is greater than _MAX_CACHE_SIZE, then the oldest files in the cache are deleted one at a time (via "inc/schedule.php" cron job) until the cache size is less than _MAX_CACHE_SIZE minus this value, in KB.</pre>
+
+		<p id="config-ipv6">Enable <a href="#ipv6">Dynamic IPv6 Generation</a> to circumvent YouTube IP bans</p>
+		<pre class="prettyprint">const _REQUEST_IP_VERSION = 4; // Force IPv4, force IPv6, or don't force any IP version for audio/video download link generation and browser download requests. Valid values are "4" (force IPv4), "6" (force IPv6), or "-1" (don't force IP version). Note: When "-1", the web server chooses either IPv4 or IPv6 for these requests.
+
+// Dynamic IPv6 Generation Constants
+// IMPORTANT: When this feature is enabled, the _REQUEST_IP_VERSION constant value, above, MUST be set to 6 !!
+const _ENABLE_DYNAMIC_IPV6 = false;  // Enable the automatic generation and use of a different, random IPv6 interface every X duration (denoted by the _DYNAMIC_IPV6_FREQUENCY constant value, below) to circumvent temporary YouTube IP bans. When enabled, a new cron job MUST be manually scheduled to run every minute using the following EXAMPLE command: "* * * * * php /www/wwwroot/yoursite.com/inc/scheduler.php". (IMPORTANT: Do NOT include the double quotes, and you MUST update directory paths to the PHP binary and scheduler.php in this command, as needed, for your server! To reiterate, this is just an example command.) Also, "inc/scheduler.php" MUST be set to CHMOD 0755 permissions.
+const _DYNAMIC_IPV6_FREQUENCY = '0 */2 * * *';  // A valid cron expression that indicates how often a new IPv6 interface is generated and used. The default value translates to "every 2 hours".</pre>
+
+		<p id="config-iprot">Configure <a href="#yt-captcha">IP Rotation</a> for video info/files "download" and/or "YouTube.com search scraping" requests</p>
+		<pre class="prettyprint">// Rotating IPs Constants
+// Used to circumvent temporary YouTube IP bans and/or CAPTCHAs that may occur when 1) scraping YouTube.com for video info/links, 2) scraping YouTube.com for search results, and/or 3) downloading videos.
+// "IP Rotation" uses either the "ips"/"ips_search" Database table(s) OR the Tor network (see "More Database Constants" and "Tor Constants" sections, below). The default method is the DATABASE METHOD.
+// (Note: You can use the DATABASE METHOD or TOR METHOD, but NOT both!)
+// (IMPORTANT: The _ENABLE_IP_ROTATION_FOR_SEARCH and _ENABLE_IP_ROTATION_FOR_VIDEOS settings (see below) operate independently, so _ENABLE_IP_ROTATION_FOR_VIDEOS does NOT need to be "true" for _ENABLE_IP_ROTATION_FOR_SEARCH to work, and vice versa. Furthermore, with exception to _DISABLE_IP_FOR_DOWNLOAD, _ENABLE_IP_ROTATION_FOR_SEARCH uses the exact SAME "Rotating IPs Constants" section values that _ENABLE_IP_ROTATION_FOR_VIDEOS does or would. E.g., the _IP_ROTATION_METHOD and _IP_REQUEST_TIMEOUT values apply to BOTH the _ENABLE_IP_ROTATION_FOR_VIDEOS "and" _ENABLE_IP_ROTATION_FOR_SEARCH settings.)
+const _ENABLE_IP_ROTATION_FOR_VIDEOS = false;  // When true, enables IP rotation (using IPs in the _DB_IPS_TABLE database table, below) for all YouTube requests related to 1) scraping YouTube.com for video info/links AND 2) downloading videos.
+const _ENABLE_IP_ROTATION_FOR_SEARCH = false;  // When true, enables IP rotation (using IPs in the _DB_IPS_TABLE2 database table, below) for all YouTube requests related to scraping YouTube.com for search results. (Note: _ENABLE_SEARCH_SCRAPING, above, "must" be set to true for this setting to work!!)
+const _IP_ROTATION_METHOD = "sequential";  // Either "round-robin" or "sequential". The "round-robin" method distributes requests equally to each IP in rotation. The "sequential" method uses the same IP for all requests until that IP is banned, and then (and only then) advances to the next IP in rotation. This value only applies to the DATABASE METHOD (and not the TOR METHOD, which always behaves "sequentially").
+const _MAX_CURL_TRIES = 10;  // Maximum number of times code tries a HTTP request, regardless of IP rotation method used, before giving up. (When using the DATABASE METHOD, this value will vary depending on the number of IPs in the rotation. The default value (10) is reasonable if there are 5 total IPs in the rotation -- in which case, each IP is maximally used twice for "each" HTTP request before the code gives up and displays an error.)
+const _IP_CONNECT_TIMEOUT = 25;  // Maximum time, in seconds, that a given "proxy" IP can attempt to connect to YouTube before timing out. (This value does NOT apply to IPs configured as "interfaces", when using the DATABASE METHOD.) This can be useful when one or more proxies are not working as expected. Note: Be VERY CAREFUL when reducing the default value!! Do not set this value too low, or otherwise valid requests will fail! If you must reduce the default value, do so in small increments until the "bad" proxy or proxies are effectively addressed.
+const _IP_REQUEST_TIMEOUT = 35;  // Maximum time, in seconds, that a given "proxy" IP's request to YouTube can persist before timing out. (This value does NOT apply to IPs configured as "interfaces", when using the DATABASE METHOD.) This can be useful when one or more proxies are not working as expected. Note: Be VERY CAREFUL when reducing the default value!! Do not set this value too low, or otherwise valid requests will fail! If you must reduce the default value, do so in small increments until the "bad" proxy or proxies are effectively addressed.
+const _IP_BAN_PAUSE = 43200;  // When using the "round-robin" DATABASE METHOD, this is the length of time, in seconds, to wait before checking if a previously banned IP (that is temporarily disabled in the rotation) is still banned. So, after every _IP_BAN_PAUSE seconds, a given banned IP will either be re-enabled in the rotation (if the ban has been released) or it will continue to be disabled for another _IP_BAN_PAUSE seconds.
+const _DISABLE_IP_FOR_DOWNLOAD = true;  // When true, the code will first try to use the primary server IP for video/audio file downloads. In this case, the current IP in rotation is only used if the initial download request fails. (Related HTTP requests will still only use the current IP in rotation.) When set to false, an IP in rotation will be used for ALL requests, including video/audio downloads. At this time, a "true" value is recommended because downloads via the primary server IP will generally be faster than proxy downloads (IF you are rotating "proxy" IPs).
+
+// More Database Constants
+// (These Database Constants are only used "if" _ENABLE_IP_ROTATION_FOR_VIDEOS and/or _ENABLE_IP_ROTATION_FOR_SEARCH is enabled and Tor is NOT enabled!)
+// You CAN use the same IPs in both the "ips" AND "ips_search" Database tables.
+// If you get errors when using the DATABASE METHOD, please first ensure that your additional IPs are configured to operate as "outgoing network interfaces" and/or "proxies". If the IPs are configured correctly, then you must add more IPs to the corresponding database table(s)! The number of IPs in rotation is directly proportional to the amount of traffic to your site, so keep adding IPs until you no longer get errors!
+const _DB_IPS_TABLE = 'ips';  // Database table that stores IPs used for IP rotation, as per _ENABLE_IP_ROTATION_FOR_VIDEOS above. Use the online tool (https://puredevlabs.cc/build-sql/) or see "ips.sql" in the "/docs" folder for the SQL required to build this table.
+const _DB_IPS_TABLE2 = 'ips_search';  // Database table that stores IPs used for IP rotation, as per _ENABLE_IP_ROTATION_FOR_SEARCH above. Use the online tool (https://puredevlabs.cc/build-sql/) or see "ips_search.sql" in the "/docs" folder for the SQL required to build this table.
+
+// Tor Constants
+// (Tor, when enabled below, is used "instead of" the Database "if" (and "only if") _ENABLE_IP_ROTATION_FOR_VIDEOS and/or _ENABLE_IP_ROTATION_FOR_SEARCH is also enabled!)
+const _ENABLE_TOR_PROXY = false;  // Enable the use of Tor for IP rotation (i.e., the TOR METHOD) instead of the default DATABASE METHOD. (See http://bit.ly/4eX8HpF for Tor setup instructions.)
+const _TOR_PROXY_PASSWORD = "YOUR_TOR_PASSWORD";  // Tor password used for control protocol request authentication, which is required to change Tor proxy IP.
+const _TOR_PROXY_PORT = '9250';
+const _TOR_CONTROL_PORT = '9251';</pre>
+		<br />
+
+   		<h4 id="upload">Upload all files to your server</h4>
+   		<p>Follow the prompts in the subsequent "Config Check" utility, to help resolve any remaining issues with the server or software configuration.</p>
+		<p><u>This utility will enable a simple, one-click installation of FFmpeg, cURL, and/or Node.js</u> (IF the corresponding binary files are NOT yet installed and registered as system-wide commands, AND IF your hosting plan permissions allow it).</p>
+   		<p>Don't forget to set "<b>store</b>" folder permissions to at least chmod 0755!</p>
+		<br />
+
+   		<h4 id="cron">Schedule a cron job</h4>
+   		<p><a href="#ipv6">After ensuring a valid IPv6 configuation</a>, you MUST schedule a cron job to run "<b>inc/scheduler.php</b>" every minute using the following EXAMPLE cron expression and command:</p>
+		<pre class="prettyprint lang-html">* * * * * /usr/bin/php /www/wwwroot/yoursite.com/inc/scheduler.php</pre>
+		<p>(<b>Note:</b> You MUST update directory paths to the PHP binary and scheduler.php in this command, as needed, for your server! To reiterate, this is just an example command.)</p>
+		<p>Don't forget to set "<b>inc/scheduler.php</b>" permissions to at least chmod 0755!</p>
+
+   		<hr />
+
+   		<h3 id="faq">FAQ</h3>
+		<div id="faq_container">
+
+			<b id="blank_page">I opened index.php and see a blank page. What should I do?</b>
+			<ul>
+				<li>Open "store/.ht_error_log" and check for corresponding PHP errors and/or warnings. You can also check your Apache error log for similar messages.</li>
+				<li>If you see a PHP error or warning that you don't understand, please copy and paste the error into Google and behold the plethora of other people who have experienced -- and overcome -- similar errors. Leverage Google to your advantage in this case, and benefit from the experiences of others who have had the same problem.</li>
+			</ul>
+
+			<b id="no_video_results">I opened index.php, but I see no YouTube video results in the page body. What should I do?</b>
+			<ul>
+				<li>Ensure that you have generated a valid <a href="#youtubeAPI">YouTube API key</a> or <a href="#youtubeAPIMultiple">keys</a> and that you have configured <a href="#config-youtubeAPI">the corresponding software setting</a> correctly.</li>
+				<li>Ensure that "url rewriting" is enabled on your web server and that your rewrite rules correspond to your specific web server software (e.g., Apache or <a href="#nginx-rewrite">Nginx</a>).</li>
+    			<li>Verify that the <a href="http://php.net/manual/en/filesystem.configuration.php#ini.allow-url-fopen">PHP "allow_url_fopen" directive</a> is set to "On" or "1".</li>
+    			<li>On cPanel servers (or servers that support a custom php.ini file), you can create a new file and add the following content:</li>
+    			<li><pre class="prettyprint lang-html">allow_url_fopen = On</pre></li>
+    			<li>...then save this file as "php.ini" and upload it to your web root directory.</li>
+    			<li>Finally, IF all else fails, then consider implementing the <a href="#yt-api-quota">"YouTube.com search scraping" feature</a>.</li>
+			</ul>
+
+			<b id="dns">When I run the "Config Check" utility prior to software installation, I see the error "DNS is OK?: No". What is wrong with my DNS? What should I do?</b>
+			<ul>
+				<li>An improperly configured DNS can cause HTTP requests (made from your server to your server's domain) to fail. To test this possibility, save the following code to a file, and then load the file in a web browser:</li>
+				<li><pre class="prettyprint lang-php">
+&lt;?php
+
+// create a new cURL resource
+$ch = curl_init();
+
+// set URL and other appropriate options
+curl_setopt($ch, CURLOPT_URL, "http://www.your-domain-here.com");
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+// grab URL and pass it to the browser
+curl_exec($ch);
+
+// print out any cURL errors as well as HTTP response information
+echo 'Curl error: (' . curl_errno($ch) . ') ' . curl_error($ch) . '&lt;br&gt;';
+print_r(curl_getinfo($ch));
+
+// close cURL resource, and free up system resources
+curl_close($ch);
+
+?&gt;
+		</pre></li>
+				<li>Now repeat the process, substituting "http://www.your-domain-here.com" with "http://www.google.com" (or any other domain name other than your site's domain name!) this time.</li>
+				<li>If the above code consistently <i>fails</i> for any reason, in any way, when CURLOPT_URL is set to "http://www.your-domain-here.com", but consistently <i>works</i> when CURLOPT_URL is set to "http://www.google.com" (or any other domain name other than your site's domain name!), then you likely have an issue with your DNS. Evidently, HTTP requests made from your server are able to correctly resolve the DNS of all sites except your own -- indicating an issue with your own DNS configuration. Possible fixes include using another DNS provider, changing nameservers, and/or having a professional configure your DNS for you.</li>
+			</ul>
+
+			<b id="download_error">When I click the MP3 and/or MP4 buttons for a given video, I get an error message and the download links don't appear. Why is this?</b>
+			<ul>
+				<li>Verify that software.xml exists in the "store" directory, and that the file is chmod to 0777 permissions. Also, ensure that "store" directory permissions allow programmatic modification of software.xml. If software.xml exists, try deleting the file and allowing it to automatically regenerate.</li>
+				<li>Try executing a simple PHP cURL request to the corresponding video page URL, and return the contents of the page to the screen. For example, place the following code in a new file, replacing the "vidID" URL query string parameter value with a valid YouTube video ID:</li>
+				<li><pre class="prettyprint lang-php">
+&lt;?php
+
+// create a new cURL resource
+$ch = curl_init();
+
+// set URL and other appropriate options
+curl_setopt($ch, CURLOPT_URL, "http://www.youtube.com/watch?v=vidID");
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+// grab URL and pass it to the browser
+curl_exec($ch);
+
+// print out any cURL errors as well as HTTP response information
+echo 'Curl error: (' . curl_errno($ch) . ') ' . curl_error($ch) . '&lt;br&gt;';
+print_r(curl_getinfo($ch));
+
+// close cURL resource, and free up system resources
+curl_close($ch);
+
+?&gt;
+		</pre></li>
+				<li>(<b>Note:</b> You can retrieve the video page URL and corresponding ID for any given video by clicking the "Preview Video" button underneath the video thumbnail image!)</li>
+				<li>Save the file, upload it to your server, and open it in a browser. Do you see the HTML page located at that URL? If the video is blocked in your server's country, then this will be indicated in the screen's output. A blank page or CAPTCHA screen could indicate that your IP has either been temporarily banned or flagged (via the CAPTCHA) for exceeding video pull quota limits. It could also mean that your server is having networking issues.</li>
+			</ul>
+
+			<b id="download_error2">When I click a MP3 or Video download link, 1) nothing happens, 2) the page reloads <i>and</i> nothing happens, 3) a bunch of strange characters are printed to the screen, 4) I see an error message, <i>or</i> 5) the downloaded file is 0 kb. What should I do?</b>
+			<ul>
+				<li>First, check that the _FFMPEG_PATH and _CURL_PATH constant values in "lib/Config.php" point to the correct locations of the corresponding binary files on your server. On Linux, you can locate FFmpeg and cURL via the command line interface as follows, e.g.:</li>
+				<li><pre class="prettyprint lang-html">root@server:~# type ffmpeg<br />ffmpeg is /usr/bin/ffmpeg</pre></li>
+				<li><pre class="prettyprint lang-html">root@server:~# which ffmpeg<br />/usr/bin/ffmpeg</pre></li>
+				<li><pre class="prettyprint lang-html">root@server:~# type curl<br />curl is /usr/bin/curl</pre></li>
+				<li><pre class="prettyprint lang-html">root@server:~# which curl<br />/usr/bin/curl</pre></li>
+				<li>Does FFmpeg work from the command console? Try running a FFmpeg command directly in the command line interface. Preferably, run a command that is executed by our software during conversions.</li>
+				<li>Are you running the most recent version of FFmpeg? (Check your FFmpeg version by typing "ffmpeg" in the command console. If the dates shown in the resulting output are more than 1-2 years old, <i>or</i> the version number is less than 3.3.4, then you may have an outdated version of FFmpeg.) Also, the software may not work as expected with FFmpeg builds downloaded from the "apt-get" repository on Debian/Ubuntu (or the "yum" repository on CentOS). Instead, for these Linux distributions, try <a href="http://johnvansickle.com/ffmpeg/">downloading a recent, static build of FFmpeg</a>. To install the static build, simply upload the downloaded FFmpeg binary file to your "/usr/bin" (or similar) directory.</li>
+				<li>You may need to set permissions of the FFmpeg binary to chmod 0777, or lower -- if possible, so that our software has permission to access FFmpeg. This especially holds true for people using a static build of FFmpeg.</li>
+				<li>Try "temporarily" enabling Debug Mode in "lib/Config.php":</li>
+				<li><pre class="prettyprint lang-php">// When enabled, Debug Mode inserts FFmpeg/cURL command-line output/errors directly into downloaded MP3 and Video/Merged Stream files.<br />// Downloaded files can subsequently be opened in a text editor to troubleshoot commands' standard output and errors.<br />const _DEBUG_MODE = true;</pre></li>
+				<li>With Debug Mode enabled, download an MP3 (or Video/Merged Stream) and then open the resulting file in a script editor to determine if any FFmpeg/cURL errors were generated during cURL download and/or FFmpeg conversion. I.e., if the file (open in your editor) contains error messages, then there is likely an issue with FFmpeg/cURL. Otherwise, there is no issue with FFmpeg/cURL.</li>
+				<li>Alternatively, if Debug Mode is already enabled in the software, then try disabling it in "lib/Config.php":</li>
+				<li><pre class="prettyprint lang-php">// When enabled, Debug Mode inserts FFmpeg/cURL command-line output/errors directly into downloaded MP3 and Video/Merged Stream files.<br />// Downloaded files can subsequently be opened in a text editor to troubleshoot commands' standard output and errors.<br />const _DEBUG_MODE = false;</pre></li>
+				<li>Because Debug Mode prints FFmpeg/cURL standard output and error messages to downloaded files, this could potentially result in corrupt or non-playable media files.
+    			<li>Also ensure that:
+    				<ul style="list-style-type:disc">
+    					<li><a href="http://php.net/manual/en/outcontrol.configuration.php#ini.output-buffering">The PHP "output_buffering" directive</a> is set to "On" or, e.g., "4096".</li>
+    					<li><a href="http://php.net/manual/en/ini.core.php#ini.memory-limit">The PHP "memory_limit" directive</a> is set to at least the PHP default value, "128M".</li>
+    				</ul>
+    			</li>
+    			<li>On cPanel servers (or servers that support a custom php.ini file), you can create a new file and add the following content:</li>
+    			<li><pre class="prettyprint lang-html">output_buffering = On<br />memory_limit = 128M</pre></li>
+    			<li>...then save this file as "php.ini" and upload it to your web root directory.</li>
+			</ul>
+
+			<b id="template">How and where do I edit the default template and design?</b>
+			<ul>
+				<li>This software employs many principles of the <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC paradigm</a>, so all "presentation logic" is located in the <b>"/app/Templates/default"</b> and <b>"/app/Views"</b> directories.</li>
+				<li>In terms of customization, most of your efforts should focus on editing the "default" template in the "/app/Templates/default" directory. Here you will find common header and footer files as well as all CSS, JavaScript, images, and other related dependencies. <u>You can create an entirely different look for the software by editing only the files in this directory and its subdirectories</u>.</li>
+				<li>If you want to create your own, brand-new template, then you can copy the "/app/Templates/default" folder to a new folder named, e.g., "/app/Templates/mytemplate". Then you must change the following constant value in "/lib/Config.php" to (per the example):</li>
+				<li><pre class="prettyprint lang-php">// Template Folder Name<br />const _TEMPLATE_NAME = "mytemplate";</pre></li>
+				<li>Additional presentation-related code is located in the "/app/Views" directory and its subdirectories. But <u>take care when editing code here because some of this code is vital for the display of crucial software functionality</u>.</li>
+				</li>Subdirectories of "/app/Views" that are worth noting:
+					<ol>
+						<li><b>"/app/Views/pages"</b>:
+							<ul>
+								<li>Files in this folder effectively embody new "pages" in the software. Pages can either be served synchronously or asynchronously (via AJAX), but they are all pages nonetheless. Each page file corresponds to a function (of the same name) in the "/app/Controllers/PagesController.php" file, and these functions perform "pre-presentation" logic before passing resulting PHP variable values to the pages.</li>
+								<li>For example, the faq() function in "/app/Controllers/PagesController.php":</li>
+								<li><pre class="prettyprint lang-php">function faq()
+{
+	$this->SetVars(array('uppercase' => true));
+	return $this->render(dirname(__DIR__) . "/" . self::_VIEWS_PATH . "/" . self::_PAGES_DIR, __FUNCTION__, TEMPLATE_NAME);
+}						</pre></li>
+								<li>...creates an $uppercase PHP variable (with boolean value 'true') that can be used anywhere in "/app/Views/pages/faq.php". And "return $this->render()" is what <i>renders</i> and ultimately displays the "faq.php" page.</li>
+								<li><u>To add a new page to the software</u>, you can add a similar, new function to "/app/Controllers/PagesController.php" and then create a corresponding page file (with the same name!) in "/app/Views/pages".</li>
+							</ul>
+						</li>
+						<li><b>"/app/Views/elements"</b>:
+							<ul>
+								<li>"Elements" are small chunks of (often reusable) markup (or presentation code) that can be inserted inside page files in "/app/Views/pages" <i>and</i> inside template header/footer files (e.g., in "/app/Templates/default/layouts").</li>
+								<li>For example, the default template consumes a "navbar_links" element in "/app/Templates/default/layouts/default/header.php" like so:</li>
+								<li><pre class="prettyprint lang-php">&lt;?php echo $this->element('navbar_links'); ?&gt;</pre></li>
+								<li>This code automatically includes and <i>renders</i> the file "/app/Views/elements/navbar_links.php" inside "header.php".</li>
+								<li><u>To add a new element to the software</u>, create a new file in "/app/Views/elements", insert your custom markup/code, and then render it inside a page or header/footer file via "echo $this->element('element_name')". (Ensure that 'element_name', per the preceding example, is <u>the same name</u> as the new, corresponding file in "/app/Views/elements"!)
+							</ul>
+						</li>
+					</ol>
+				</li>
+			</ul>
+
+			<b id="files_saved">Are downloaded/converted files saved on the server?</b>
+			<ul>
+				<li>No! You need very little hard disk space because nothing is stored on the server. A mere 50 MB (minimum) of disk space is required.</li>
+			</ul>
+
+			<b id="yt-api-quota">My YouTube API key (or keys) is frequently over the API's daily limit/quota. Aside from using multiple keys, what can I do?</b>
+			<ul>
+				<li>If you find that <a href="#youtubeAPIMultiple">using multiple YouTube API keys</a> is not enough to service your site's daily traffic, then you can eliminate <i>all</i> requests to the <a href="https://developers.google.com/youtube/v3/docs/search/list">YouTube Data API's "search" endpoint</a> (and <i>most or all</i> requests to its <a href="https://developers.google.com/youtube/v3/docs/videos/list">"videos" endpoint</a>) by leveraging the software's built-in "YouTube.com search scraping" feature.</li>
+				<li>First, let's higlight this functionality in the proper context. By default, the software consumes the "videos", "playlistItems", and "search" YouTube API endpoints. Each request sent to one of these endpoints incurs a "cost" of X number of "units", and each API key is allocated a finite number of total units per day. By far, "search" API requests cost the most, at 100 units per request. Other API requests (used in this software) pale in comparison, costing a mere 1 unit per request!</li>
+				<li>That said, <u>there is nearly an infinite number of possible YouTube keyword searches</u>. And, by default, for every keyword search, a single "videos" API request generates data for all corresponding video search results. So, even though "search" requests consume the most API units, the number of "videos" requests grows at a directly proportional rate. I.e., despite the relatively low cost of "videos" requests, they become increasingly costly over time with more and more unique keyword searches!</li>
+				<li>So, ultimately, this demonstrates how the provision of a "YouTube.com search scraping" feature mitigates or eliminates increased API consumption (that naturally comes with more website traffic). <u>By replacing costly API requests with a viable alternative, YouTube API consumption is dramatically reduced (or even halted entirely!), which effectively increases each API key's daily quota and significantly reduces the total number of keys required to sustain higher levels of traffic</u>.</li>
+				<li>But <u>how does it work</u>? Search scraping is primarily regulated by the _ENABLE_SEARCH_SCRAPING and _SEARCH_SCRAPING_POPULATES_VID_INFO constant values:
+					<ul style="list-style-type:disc">
+						<li><a href="#config-search">The _ENABLE_SEARCH_SCRAPING constant value in "lib/Config.php"</a> <u>must</u> be set to true (and it is true, by default). This setting eliminates <i>all</i> requests to the YouTube API's "search" endpoint, and scraped search results are automatically cached (leveraging the same mechanism used for YouTube API response caching).</li>
+						<li><a href="#config-search">The _SEARCH_SCRAPING_POPULATES_VID_INFO constant value in "lib/Config.php"</a> determines whether or not additional requests to the YouTube API's "videos" endpoint are also eliminated. I.e., a true value will eliminate the vast majority of "videos" requests that are otherwise issued for keyword searches. (<b>Note:</b> Because "YouTube.com search scraping" is incapable of yielding the <i>exact same</i> output as "videos" API requests, this setting will remove video likes, dislikes, and rating from each search result.)</li>
+						<li><a href="#config-topmusic">The _ENABLE_TOP_MUSIC_PER_COUNTRY constant value in "lib/Config.php"</a>, when set to false, and while not directly involved in the act of "YouTube.com search scraping", will eliminate additional requests to the YouTube API's "videos" endpoint that are otherwise used to render Top Videos results on the homepage.</li>
+						<li id="api-exceptions">In general, <u>most YouTube API requests are eliminated when "both" _ENABLE_SEARCH_SCRAPING "and" _SEARCH_SCRAPING_POPULATES_VID_INFO are set to true</u>. And, in fact, <span style="text-decoration: underline; color: steelblue;">nearly ALL YouTube API requests can be eliminated via a combination of the relevant _ENABLE_SEARCH_SCRAPING, _SEARCH_SCRAPING_POPULATES_VID_INFO, and _ENABLE_TOP_MUSIC_PER_COUNTRY values</span>.
+							<ul style="list-style-type:circle">
+								<li>Minor and/or infrequent exceptions include "Top Videos" charts (when _ENABLE_TOP_MUSIC_PER_COUNTRY is set to true), playlist searches, and scraped video page URL searches that return no results (which still rely on requests to the YouTube API's "videos", "playlistItems", and "videos" endpoints, respectively).</li>
+								<li>E.g., to put this into perspective (and when _ENABLE_TOP_MUSIC_PER_COUNTRY is set to true): By default, there are 95 "Top Videos" (country) charts that each require a single "videos" API request. So, if all charts are visited in the same 24-hour period, then 95 total API units are consumed (i.e., 95 x 1 units each). Playlist searches are relatively rare and cost 1 API unit apiece. Finally, and even more rare, scraped searches for video URLs that return no results consume 1 API unit each (because, in that case, the YouTube API is used as a backup). So, <u>considering that YouTube API responses are automatically cached for at least 24 hours</u> (by default), then <u>it's distinctly possible that no YouTube API key's quota is ever exceeded in a given 24-hour period</u>!</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<b id="yt-captcha">I think YouTube is blocking or banning my IP address, and/or I am experiencing a CAPTCHA page when trying to connect to YouTube. What can I do?</b>			
+			<ul>
+				<li class="alert alert-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> <b>Note:</b> Before reading on, we recommend trying <a href="#config-ipv6" class="alert-link">Dynamic IPv6 Generation</a> first!</li>
+				<li>First of all, bans are usually temporary. In our experience, YouTube only blocks/bans your IP for a finite period of time. The amount of time will vary -- generally, anywhere from a few minutes to a few days.</li>
+				<li>If you are frequently getting blocked by YouTube, OR you are experiencing a CAPTCHA page, then <u>you can rotate between multiple IPs for ALL outgoing video-, search-, and download-related requests</u>.
+				<li>There are currently multiple variations of "IP Rotation" available:
+					<ol>
+						<li id="yt-captcha-db-method"><b>The "Database" Method</b>:
+							<ul>
+								<li>In this case, you will need to purchase/acquire additional IPs. It's reasonable to "start" with 8-10 IPs for the purpose of IP rotation. These extra IPs generally only cost a couple of dollars apiece, and you can always buy more later (and add them to the rotation) as needed.</li>
+								<li>That said, the more IPs you have, the better off you will be. In general, the number of additional IPs required for your site is directly proportional to the amount of traffic to your site.</li>
+								<li>The "Database" Method supports the following kinds of IPs:
+									<ol>
+										<li id="yt-captcha-proxy"><b>IPs configured as "proxies"</b> <i>(recommended)</i>:
+											<ul>
+												<li>In the recent past, <u>proxy IPs are generally more robust and last longer than IPs configured as "outgoing network interfaces"</u> (see below).</li>
+												<li>There are many ways to implement and consume proxies. Here are 4 common scenarios, starting with the easiest:
+													<ul style="list-style-type:disc">
+														<li>Purchase private proxy IPs from a dedicated, 3rd-party proxy provider like <a href="http://instantproxies.com/billing/aff.php?aff=061">InstantProxies</a>. (In our experience, InstantProxies provides robust proxies at a competitive price.) This is also a quick and effective way to gauge approximately <i>how many</i> proxies you need for your current traffic volume.</li>
+														<li>Purchase one or more "reverse backconnect rotating proxy" IPs from a dedicated, 3rd-party proxy provider like <a href="https://stormproxies.com/rotating_reverse_proxies.html">Storm Proxies</a>. This solution is better and more cost-effective than, e.g., InstantProxies, IF (and only if) you need a high volume of IPs.</li>
+														<li>Purchase an inexpensive VPS, configure it as a proxy using something like <a href="http://www.squid-cache.org/Intro/">Squid</a>, and then use the VPS IP as a proxy IP.</li>
+														<li>Purchase an inexpensive VPS, purchase additional failover IPs from your hosting provider, configure the additional IPs as proxies using something like <a href="http://www.squid-cache.org/Intro/">Squid</a>, install <a href="http://www.haproxy.org/">HAProxy</a> on the VPS, and use HAProxy to rotate between these proxies. In this case, only the primary VPS IP is inserted into our software's "IP rotation" feature, and HAProxy automatically selects a proxy when a request is sent to the VPS IP.</li>
+													</ul>
+												</li>
+												<li>In general, you should follow these guidelines:
+													<ul style="list-style-type:disc">
+														<li>Choose proxies that are geographically very near to your web server. (In a perfect world, the proxy server would be sitting right next to the web server in the same data center.)</li>
+														<li>Choose "private" instead of "shared" proxies. Ideally, you should be the only person using the proxy, and you should not use it for anything more than proxy requests.</li>
+														<li>Your proxies should have network bandwidth and connection speeds comparable to your web server.</li>
+														<li>Avoid free proxy IPs. These proxies are shared with the rest of the world, and they get banned quickly by popular sites (like YouTube).</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li id="yt-captcha-interface"><b>IPs configured as "outgoing network interfaces"</b>:
+											<ul>
+												<li>Start by purchasing some additional, "failover" IP (IPv4) addresses from your hosting provider. (Often your hosting plan will include additional IPs for free!)</li>
+												<li>Next, configure these additional IP addresses so that they can be used as "outgoing network interfaces". Simply put, your server needs to be configured so that it can "bind" to these extra IPs for HTTP requests. The easiest way to accomplish this is to have your hosting provider do this for you. If you must do this yourself, then you can refer to <a href="https://docs.ovh.com/ca/en/dedicated/network-ipaliasing/">OVH's guide for setting up "Network IP Aliasing"</a> for a number of different Linux distributions (and Windows).</li>
+												<li><b>Note:</b> Don't use IPv6 IPs because the entire IPv6 IP "block" (or range) is banned when a single IP within that block is banned!</li>
+											</ul>
+										</li>
+									</ol>
+								</li>
+								<li id="yt-captcha-variations">There are 2 variations of the "Database" Method (set via <a href="#config-iprot">the _IP_ROTATION_METHOD constant value in "lib/Config.php"</a>):
+									<ol>
+										<li><b>"sequential"</b> <i>(recommended)</i>:
+											<ul>
+												<li>In the recent past, <u>the "sequential" method is generally more robust and lasts longer than the "round-robin" method</u> (see below).</li>
+												<li>This method uses the same IP for all YouTube requests until that IP is banned, and then (and only then) advances to the next IP in rotation.</li>
+												<li>This method operates on the principle that the first IP in rotation will no longer be banned after the last IP is banned. (I.e., given enough IPs in rotation, enough time will have elapsed since the first IP ban that this ban will be lifted once the final IP is banned.)</li>
+											</ul>
+										</li>
+										<li><b>"round-robin"</b>:
+											<ul>
+												<li>The "round-robin" method distributes YouTube requests equally to each IP in rotation.</li>
+												<li>Banned IPs are temporarily removed from rotation as per <a href="#config-iprot">the _IP_BAN_PAUSE constant value in "lib/Config.php"</a>.
+											</ul>
+										</li>
+									</ol>
+								</li>
+								<li id="yt-captcha-buildSQL">There are 2 ways to generate the SQL required to build the corresponding "ips" and/or "ips_search" database table(s) (used for obtaining video info/files and scraping search results, respectively):
+									<ol>
+										<li><b>Use our <a href="https://puredevlabs.cc/build-sql/">online tool</a></b> <i>(recommended)</i>:
+											<ul>
+												<li>Use our online tool to <a href="https://puredevlabs.cc/build-sql/">easily generate all of the SQL required</a> to build your own "ips"/"ips_search" database table!</li>
+												<li>Simply paste your IPs into the form, set the "Table Name" dropdown menu value to "ips" or "ips_search", submit the form, and then execute the resulting SQL code in a MySQL database on your server.</li>
+											</ul>
+										</li>
+										<li><b>Use the SQL provided in "docs/ips.sql" and/or "docs/ips_search.sql"</b>:
+											<ul>
+												<li>Use the SQL provided in "docs/ips.sql" and/or "docs/ips_search.sql" to create the required database table(s) that will hold your IPs.</li>
+												<li><u>Ensure that you replace the IPs in the SQL INSERT query with your own IP addresses "before" executing the SQL!</u></li>
+												<li>Additional IP addresses can be added to the INSERT query by copying the format and adding lines to the query.</li>
+												<li>For example, let's say you have the following 4 IPs configured as "outgoing network interfaces": 154.182.169.235, 136.182.135.157, 37.123.36.58, and 170.48.117.222. And you have another 4 IPs configured as "proxies": 83.220.171.161:3128, 234.17.39.229:3128, 48.143.35.132:3128, and 187.237.71.67:3128. (<b>Note:</b> The number after the ":" in these proxy IPs is referred to as the server "port". Generally, only proxy IPs will have this.) In this case, you would modify the SQL INSERT query in "docs/ips.sql" (or "docs/ips_search.sql") as follows:</li>
+												<li><pre class="prettyprint lang-php">INSERT INTO `ips` (`ip`, `port`, `proxy_user`, `proxy_pass`, `usage_count`, `banned`) VALUES
+('154.182.169.235', '', '', '', 0, 0),
+('136.182.135.157', '', '', '', 0, 0),
+('37.123.36.58', '', '', '', 0, 0),
+('170.48.117.222', '', '', '', 0, 0),
+('83.220.171.161', '3128', '', '', 0, 0),
+('234.17.39.229', '3128', '', '', 0, 0),
+('48.143.35.132', '3128', '', '', 0, 0),
+('187.237.71.67', '3128', '', '', 0, 0);
+												</pre></li>
+												<li>Sometimes, you will also have proxies that require authentication. For example, let's say you have an additional proxy, 161.81.186.211:8080, with username "randallj" and password "getlucky123". You would then update the previous INSERT query like so:</li>
+												<li><pre class="prettyprint lang-php">INSERT INTO `ips` (`ip`, `port`, `proxy_user`, `proxy_pass`, `usage_count`, `banned`) VALUES
+('154.182.169.235', '', '', '', 0, 0),
+('136.182.135.157', '', '', '', 0, 0),
+('37.123.36.58', '', '', '', 0, 0),
+('170.48.117.222', '', '', '', 0, 0),
+('83.220.171.161', '3128', '', '', 0, 0),
+('234.17.39.229', '3128', '', '', 0, 0),
+('48.143.35.132', '3128', '', '', 0, 0),
+('187.237.71.67', '3128', '', '', 0, 0),
+('161.81.186.211', '8080', 'randallj', 'getlucky123', 0, 0);
+												</pre></li>
+											</ul>
+										</li>
+									</ol>
+								</li>
+								<li>In the future, whenever you want to add another IP address to the rotation, then you simply add the new IP or IPs to the corresponding database table.</li>
+								<li>(<b>Note:</b> BOTH the "ips" AND "ips_search" tables MUST be in the SAME database!)</li>
+								<li>IF both <a href="#config-iprot">_ENABLE_IP_ROTATION_FOR_VIDEOS "and" _ENABLE_IP_ROTATION_FOR_SEARCH</a> are set to true, then <u>you can either use the <i>same</i> set or <i>two, separate</i> sets of IPs for the "ips" and "ips_search" database tables</u> (again, used for obtaining video info/files and scraping search results, respectively):
+									<ol>
+										<li><b>Using the same set of IPs</b> <i>(recommended)</i>:
+											<ul>
+												<li>The advantages of using the same set of IPs:</li>
+												<li>
+													<ul style="list-style-type:disc">
+														<li>Current evidence suggests that, for any given IP, using the same IP for BOTH kinds of requests does NOT cause that IP to be blocked faster for either kind of request.</li>
+														<li>Using fewer overall IPs means spending less of your hard-earned money on IPs.</li>
+														<li>Since IPs used for video info/files "download" requests are generally blocked faster than those used for search scraping (as noted, below), you can replace blocked IPs as needed without the concern that these IPs could still be used for video info/files "download" requests. (I.e., by the time a given IP is blocked for search scraping, it is already blocked for video info/files "download" requests.)</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li><b>Using two, separate sets of IPs</b>:
+											<ul>
+												<li>The advantages of using two, separate sets of IPs:</li>
+												<li>
+													<ul style="list-style-type:disc">
+														<li>IF, at some future time, YouTube starts blocking IPs faster <i>because</i> they are used for BOTH search scraping AND video info/files "download" requests, then separate sets of IPs enables you to avoid such detrimental behavior.</li>
+														<li>IF, at some future time, the same IPs simply will not work for different kinds of requests, then a separate set of IPs enables you to avoid such detrimental behavior.</li>
+													</ul>
+												</li>
+												<li><b>Note:</b> At this time, using 2 different sets of IPs is intended as a "failsafe" measure. I.e., while its implementation is absolutely effective, it should generally only be considered if/when YouTube makes changes that require 2 sets of IPs.</li>
+											</ul>
+										</li>
+									</ol>
+								</li>
+								<li>Moreover, when using the "Database" Method for BOTH search scraping AND video info/files "download" requests, <u>the same "variation"</u> (either <a href="#yt-captcha-variations">"sequential" or "round-robin"</a>) <u>is used for <i>all</i> requests</u>.</li>
+								<li>If you find that, with IP rotation enabled, you are still experiencing IP bans and/or CAPTCHAs, then that is generally a sign that you need to add more IP addresses to the rotation (to the corresponding database table). You must keep adding IPs until YouTube downloads/conversions/search start working normally.</li>
+								<li>If you suspect that there is a problem with the IPs themselves, or the IP configuration on your server, then you should first test each additional IP using the following, simple PHP cURL code:
+									<ul style="list-style-type:disc">
+										<li>For IPs configured as "proxies":
+											<ul class="debian">
+												<li><p class="alert alert-warning" style="margin-top:40px"><i class="fa fa-info-circle" aria-hidden="true"></i> <b>Note:</b> Try the new <a href="ProxyChecker" class="alert-link"><b>"Proxy Checker" tool</b></a> instead! It makes it easy to test your proxy IPs and determine which are "good" and which are "bad"!</p></li>
+												<li><pre class="prettyprint lang-php">
+&lt;?php
+// create a new cURL resource
+$ch = curl_init();
+
+// set URL and other appropriate options
+curl_setopt($ch, CURLOPT_URL, "http://www.youtube.com/watch?v=vidID");
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_REFERER, '');
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+// configure proxy
+curl_setopt($ch, CURLOPT_PROXY, '208.67.222.222:1080');  // Your extra IP and port number goes here!
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+// grab URL and pass it to the browser
+curl_exec($ch);
+
+// print out any cURL errors as well as HTTP response information
+echo 'Curl error: (' . curl_errno($ch) . ') ' . curl_error($ch) . '&lt;br&gt;';
+print_r(curl_getinfo($ch));
+
+// close cURL resource, and free up system resources
+curl_close($ch);
+?&gt;
+												</pre></li>
+											</ul>
+										</li>
+										<li>For IPs configured as "outgoing network interfaces":
+											<ul class="debian">
+												<li><pre class="prettyprint lang-php">
+&lt;?php
+// create a new cURL resource
+$ch = curl_init();
+
+// set URL and other appropriate options
+curl_setopt($ch, CURLOPT_URL, "http://www.youtube.com/watch?v=vidID");
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_REFERER, '');
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+// configure interface
+curl_setopt($ch, CURLOPT_INTERFACE, '23.232.234.2');  // Your extra IP goes here!
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
+// grab URL and pass it to the browser
+curl_exec($ch);
+
+// print out any cURL errors as well as HTTP response information
+echo 'Curl error: (' . curl_errno($ch) . ') ' . curl_error($ch) . '&lt;br&gt;';
+print_r(curl_getinfo($ch));
+
+// close cURL resource, and free up system resources
+curl_close($ch);
+?&gt;
+												</pre></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>Ensure that you change the CURLOPT_INTERFACE or CURLOPT_PROXY value to your IP address (and port number, for proxies). Then save the code to a .php file and run it on your server. If you see a video but it won't play, you don't see a video, or you get a cURL error and/or curious HTTP response, then there is something wrong with the IP or its configuration.</li>
+								<li>To address issues with IPs configured as "outgoing network interfaces", on some servers, you can try commenting out this line of code, like so:</li>
+								<li><pre class="prettyprint lang-php">//curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);  </pre></li>
+								<li>If all else fails, you can try completely disabling IPv6 on your server. Please consult with your hosting company or server admin to do this.</li>
+							</ul>
+						</li>
+						<li id="yt-captcha-tor-method"><b>The "Tor" Method</b>:
+							<ul>
+								<li>In this case, you do <u>not</u> need to purchase/acquire additional IP addresses. Instead, you leverage <a href="https://2019.www.torproject.org/about/overview.html.en">Tor</a>, a free global proxy network.</li>
+								<li>The simplest way to enable Tor on your server is to install our custom <a href="https://en.wikipedia.org/wiki/Docker_(software)">Docker</a> image and follow the corresponding, detailed instructions provided via <a href="http://bit.ly/4eX8HpF">our Docker Hub repository</a>. Our Docker image is configured to optimize your anonymity and security while connected to the Tor network by (among other things):
+									<ol>
+										<li>Limiting Tor connectivity to outbound requests only. In short: You can use other "nodes" on the Tor network for proxy connections, but other nodes cannot use your server for similar connections. I.e., you are completely insulated from the rest of the Tor network.</li>
+										<li>Using non-standard server ports for Tor connections.</li>
+										<li>Password-protecting all requests to the <a href="https://gitweb.torproject.org/torspec.git/tree/control-spec.txt">Tor control protocol</a>, which is the specification and service that enables the software to dynamically set and change the current Tor proxy IP.</li>
+									</ol>
+								</li>
+								<li>The "Tor" Method functions in a way that is similar to the "Database" Method's "sequential" variation. I.e., when a proxy IP is fetched from the Tor network, that same IP is used for all subsequent YouTube requests until it is banned, and then (and only then) a new Tor proxy IP is generated and used. (And this process is repeated indefinitely.)</li>
+								<li>The same Tor proxy IP is used for BOTH search scraping AND video info/files "download" requests. Thus, if a Tor IP becomes blocked for <i>either</i> kind of request, then a new proxy IP is generated and used for <i>all</i> requests.</li>
+								<li>The primary attraction of the "Tor" Method is that it's free, and it unburdens you of the prospect of buying/acquiring more and more proxies as your traffic volume increases (i.e., when using the "Database" Method). But Tor is far from perfect. Because Tor nodes are shared by the rest of the world, network speeds are sometimes slow.</li>
+							</ul>
+						</li>
+					</ol>
+				</li>
+				<li>In all cases, you should <a href="#config-iprot">configure the corresponding constant values in "lib/Config.php"</a> in preparation for IP Rotation. This file is well-documented, and all constants related to IP Rotation and the database are throroughly explained in the associated comment sections.</li>
+				<li>Finally, please also consider the following:
+					<ul style="list-style-type:disc">
+						<li><a href="#config-iprot">The _ENABLE_IP_ROTATION_FOR_VIDEOS constant value in "lib/Config.php"</a> does NOT need to be true if you are ONLY rotating IPs for the purpose of search scraping! Conversely, <a href="#config-iprot">the _ENABLE_IP_ROTATION_FOR_SEARCH constant value in "lib/Config.php"</a> does NOT need to be true if you are ONLY rotating IPs for the purpose of video info/files "download" requests!</li>
+						<li>Evidence suggests that <u>IPs used for search scraping are blocked much less often than IPs used for video info/files "download" requests</u>. Thus, the net result is that <u>less overall IPs are required for search scraping requests vs. video info/files "download" requests</u>.</li>
+					</ul>
+				</li>
+			</ul>
+
+			<b id="yt-blocked">I think a video or group of videos is blocked in my server's country. What can I do?</b>
+			<ul>
+				<li>All countries have some blocked videos. All of them. The only way that you could "unblock" all of these videos is to leverage a global proxy network like <a href="https://www.torproject.org/docs/documentation.html.en">Tor</a>. In fact, Tor is the only global proxy network that we are aware of at this time, and it is notoriously known for its slow connection speeds.</li>
+				<li>A more practical approach is to unblock as many videos as you can without spending a lot of extra money, making a lot of extra work for youself, and generally inducing massive, debilitating headaches.</li>
+				<li>The easiest way to avoid blocked videos is to choose a web server in a country that, generally, has few blocked videos. In our experience, the USA, United Kingdom, France, and Germany have the least number of blocked videos. You would do yourself a favor to choose a datacenter located in one of these countries.</li>
+				<li>Another way to thwart blocked videos is to use dedicated proxy IPs in your HTTP and download requests to YouTube. Perferably, these proxies should also be located in the USA, United Kingdom, France, or Germany. In fact, you should ideally use proxies from multiple different countries to unblock as many videos as possible. This software supports proxy integration via the "<a href="#yt-captcha">IP rotation</a>" feature.</li>
+			</ul>
+
+			<b id="nginx-rewrite">How can I convert the URL rewriting rules in the included .htaccess file to Nginx rewriting rules?</b>
+			<ul>
+				<li>Place the following rewrite rules and code in the respective Nginx vhost file (in "/etc/nginx/sites-available"):</li>
+				<li><pre class="prettyprint lang-php">server {
+listen 80;
+listen [::]:80;
+
+server_name example.com;
+
+root /var/www/example.com;
+index index.html index.php;
+
+# If NOT using Cloudflare SSL or HTTP Proxy (e.g., OVH Load Balancer), uncomment this line to force SSL (Valid SSL Cert required e.g. Lets Encrypt)
+# return 301 https://$server_name$request_uri;
+
+# Deny all attempts to access hidden files
+# such as .htaccess, .htpasswd, .ht_error_log
+location ~ /\.ht {
+	deny all;
+}
+
+location / {
+	try_files $uri $uri/ =404;
+
+	# If NOT using Cloudflare SSL and using HTTP Proxy (e.g., OVH Load Balancer), uncomment this line
+	#if ($http_x_forwarded_proto !~ "https"){
+	#	set $rule_0 1$rule_0;
+	#}
+
+	# If using Cloudflare SSL, uncomment this line
+	#if ($http_cf_visitor ~ '{"scheme":"http"}'){
+	#	set $rule_0 1$rule_0;
+	#}
+
+	#if ($uri ~ "(.*[^\.][^m][^p][^3])$"){
+	#	set $rule_0 2$rule_0;
+	#}
+	#if ($rule_0 = "21"){
+	#	return 301 https://$server_name$request_uri;
+	#}
+	#if ($http_cf_visitor ~ '{"scheme":"https"}'){
+	#	set $rule_1 1$rule_1;
+	#}
+	#if ($uri ~ "(\.mp3)$"){
+	#	set $rule_1 2$rule_1;
+	#}
+	#if ($rule_1 = "21"){
+	#	return 301 http://$server_name$request_uri;
+	#}
+	# END Cloudflare Configuration
+
+	if (!-d $request_filename){
+		set $rule_2 1$rule_2;
+	}
+	if (!-f $request_filename){
+		set $rule_2 2$rule_2;
+	}
+	if ($rule_2 = "21"){
+		rewrite ^/(robots\.txt)$ /store/$1 last;
+	}
+	if (!-d $request_filename){
+		set $rule_3 1$rule_3;
+	}
+	if (!-f $request_filename){
+		set $rule_3 2$rule_3;
+	}
+	if ($rule_3 = "21"){
+		rewrite /(test-url-rewriting)$ /inc/version.php last;
+	}
+	if (!-d $request_filename){
+		set $rule_4 1$rule_4;
+	}
+	if (!-f $request_filename){
+		set $rule_4 2$rule_4;
+	}
+	if ($rule_4 = "21"){
+		rewrite ^/(.*)$ /index.php?req=$1&$args last;
+	}
+}
+
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+#
+location ~ \.php$ {
+#	include snippets/fastcgi-php.conf;
+#
+#	# With php5-cgi alone:
+#	fastcgi_pass 127.0.0.1:9000;
+#	# With php5-fpm:
+#	fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+	try_files $uri =404;
+	fastcgi_pass unix:/var/run/php5-fpm.sock;
+	fastcgi_index index.php;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	include fastcgi_params;
+}
+}
+
+server {
+# SSL configuration
+#
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+#
+# Self signed certs generated by the ssl-cert package
+# Don't use them in a production server!
+#
+include snippets/snakeoil.conf;
+
+server_name example.com;
+
+root /var/www/example.com;
+index index.html index.php;
+
+# Deny all attempts to access hidden files
+# such as .htaccess, .htpasswd, .ht_error_log
+location ~ /\.ht {
+	deny all;
+}
+
+location / {
+	try_files $uri $uri/ =404;
+
+	if (!-d $request_filename){
+		set $rule_0 1$rule_0;
+	}
+	if (!-f $request_filename){
+		set $rule_0 2$rule_0;
+	}
+	if ($rule_0 = "21"){
+		rewrite ^/(robots.txt)$ /store/$1 last;
+	}
+	if (!-d $request_filename){
+		set $rule_1 1$rule_1;
+	}
+	if (!-f $request_filename){
+		set $rule_1 2$rule_1;
+	}
+	if ($rule_1 = "21"){
+		rewrite /(test-url-rewriting)$ /inc/version.php last;
+	}
+	if (!-d $request_filename){
+		set $rule_2 1$rule_2;
+	}
+	if (!-f $request_filename){
+		set $rule_2 2$rule_2;
+	}
+	if ($rule_2 = "21"){
+		rewrite ^/(.*)$ /index.php?req=$1&$args last;
+	}
+}
+
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+#
+location ~ \.php$ {
+#	include snippets/fastcgi-php.conf;
+#
+#	# With php5-cgi alone:
+#	fastcgi_pass 127.0.0.1:9000;
+#	# With php5-fpm:
+#	fastcgi_pass unix:/var/run/php5-fpm.sock;
+
+	try_files $uri =404;
+	fastcgi_pass unix:/var/run/php5-fpm.sock;
+	fastcgi_index index.php;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	include fastcgi_params;
+}
+}
+		</pre></li>
+			</ul>
+
+			<b id="language">How do I add/edit language translations?</b>
+			<ul>
+				<li>There are 2 primary components of the software's language translation engine:
+					<ol>
+						<li><b>"app/Languages/index.php"</b>:
+							<ul>
+								<li>This file lists all available languages in a PHP array. Each array key is the corresponding <a href="http://www.w3schools.com/tags/ref_language_codes.asp">ISO 639-1 language code</a>, and each array value is another array containing additional information about the language.</li>
+							</ul>
+						</li>
+						<li><b>"app/Languages/{language code}.php"</b>:
+							<ul>
+								<li>These files are named using the corresponding <a href="http://www.w3schools.com/tags/ref_language_codes.asp">ISO 639-1 language code</a> (e.g., "en.php" or "de.php"). Each file contains a PHP array of translations for a given language. Array keys are used to display translations in other parts of the software (e.g., $translations['website_title'] will return the 'website_title' translation).</li>
+							</ul>
+						</li>
+					</ol>
+				</li>
+				<li><b><u>To add a new language</u></b>: Add the language to "app/Languages/index.php" (via a new array element), open "app/Languages/en.php" and replace all translations with the new language's translations, and then save the file as {language code}.php. <i>For example, to add the French language:</i>
+					<ul>
+						<li><b>"app/Languages/index.php"</b></li>
+						<li><pre class="prettyprint lang-php">return array(
+    'en' => array(
+        'language' => 'English(US)',
+        'country_code' => 'us',
+        'lang_code' => 'en',
+        'country_name' => 'United States',
+        'direction' => 'ltr'
+    ),
+    'de' => array(
+        'language' => 'Deutsch',
+        'country_code' => 'de',
+        'lang_code' => 'de',
+        'country_name' => 'Deutschland',
+        'direction' => 'ltr'
+    ),
+    'fr' => array(
+        'language' => 'Français',
+        'country_code' => 'fr',
+        'lang_code' => 'fr',
+        'country_name' => 'France',
+        'direction' => 'ltr'
+    )
+);
+				</pre></li>
+						<li><b>"app/Languages/fr.php"</b></li>
+						<li><pre class="prettyprint lang-php">return array(
+    // Meta Data - (app/Views/helpers)
+    'website_title' => 'french translation',
+    'website_description' => 'french translation',
+    'website_keywords' => 'french translation',
+    'search_description' => 'french translation',
+
+    // Navbar - (app/Views/elements)
+    'navbar_home' => 'french translation',
+    'navbar_faq' => 'french translation',
+    'navbar_contact' => 'french translation',
+
+    // More Translations, etc., here
+);
+				</pre></li>
+					</ul>
+				</li>
+				<li><b><u>To edit a language</u></b>: Open "app/Languages/{language code}.php" and add and/or modify translations as needed.</li>
+				<li><b><u>To remove a language</u></b>: Open "app/Languages/index.php" and remove the array element that corresponds to a given language.</li>
+				<li>(<i><b>Note:</b> Languages that read right-to-left are not yet supported.</i>)</li>
+			</ul>
+
+			<b id="api">How do I enable the JSON REST APIs and/or the Button/Iframe API?</b>
+			<ul>
+				<li>The software comes with 3 ready-to-consume APIs: A JSON and Button/Iframe API for easy consumption of video download data/links, and a JSON "Search" API for manipulating YouTube search results (generated via the <a href="#yt-api-quota">"YouTube.com search scraping" feature</a>).</li>
+				<li>(<b>Note:</b> All three APIs can technically function <i>without</i> consuming the YouTube Data API. Nevertheless, when using the JSON "Search" API, it is recommended to have at least one working YouTube API key -- <a href="#api-exceptions">in the unlikely event that a valid video URL search does not return any results</a>. Moreover, the JSON "Search" API also requires setting "true" values for "both" the <a href="#config-search">_ENABLE_SEARCH_SCRAPING "and" _SEARCH_SCRAPING_POPULATES_VID_INFO constants</a>!)</li>
+				<li>The APIs are disabled by default. To enable one or more APIs, you must <a href="#config-apis">edit the $_apiAllowedDomains array in 'lib/Config.php'</a> per the instructions provided in the corresponding code comments.</li>
+				<li>You can whitelist (restrict) access to any API by adding specific domains and/or IPs to the corresponding $_apiAllowedDomains 'json', 'button', and/or 'search' subarrays. If any subarray is left empty, then this enables unrestricted, public access to the corresponding API. When at least one API is made public in this way, an 'API' menu link and page is automatically added to your site. This page provides your website users with detailed instructions for consuming all available public APIs.</li>
+				<li>For further information related to the consumption of each API, please <a href="../@developers/preview">review a preview of the 'API' page here</a>.</li>
+			</ul>
+
+			<b id="mp3_cache">How do I enable MP3 file caching, and how does the cache work?</b>
+			<ul>
+				<li>By default, the software is configured with MP3 caching disabled. To enable it, you must <a href="#config-cache">edit the _CACHE_FILES constant value in 'lib/Config.php'</a>.</li>
+				<li>In a nutshell, this feature stores and reuses previously converted MP3 files, so that the same files aren't downloaded and converted over and over again. This ultimately results in <u>a significant savings of resources (foremost, CPU and bandwidth) on your server!</u></li>
+				<li><b><u>To increase the overall efficiency and effectiveness of your cache</u></b>, MP3 files are only cached after the "nth" conversion of a given video, per the <a href="#config-cache">_CACHE_AFTER_X constant value</a>. (E.g., a value of 2 only saves an MP3 in the cache after 2 prior conversions of the same video.) This setting ultimately ensures that only "more popular" files are cached, thereby making more efficient use of available cache space and saving CPU (required to run FFmpeg) only where you most need it -- for popular videos!</li>
+				<li><b><u>To maintain and control cache size</u></b>, the <a href="#config-cache">_MAX_CACHE_SIZE and _CACHE_SIZE_BUFFER constant values</a> are leveraged. In addition, you'll need to set up "inc/schedule.php" to run as a regular cron job on your server (ideally, every 15-60 minutes). Some cron command examples include:</li>
+				<li><pre class="prettyprint lang-html"># Once every 15 minutes
+*/15 * * * * /usr/bin/php -q /absolute/path/to/schedule.php
+
+# Once every 30 minutes
+0,30 * * * * /usr/bin/php -q /absolute/path/to/schedule.php
+
+# Once every hour
+0 * * * * /usr/bin/php -q /absolute/path/to/schedule.php
+				</pre></li>
+				<li>(Prior to scheduling the cron job, <u>you must set file permissions of "inc/schedule.php" to chmod 0755 and uncomment all unlink() and rmdir() commands in "inc/schedule.php" to ensure that cached files are actually deleted</u>!)</li>
+				<li>Essentially, _MAX_CACHE_SIZE is the maximum size that the cache can grow on your server, measured in kilobytes, before the oldest cached files are deleted by the cron job. <b>Note:</b> Because file deletions are only performed when the cron job is run, <i>the actual size of the cache may exceed this value between cron jobs</i>. So, it is IMPORTANT that this value is set to significantly lower than the actual space available on the hard drive! You can further mitigate this issue by increasing the _CACHE_SIZE_BUFFER constant value (see below), running the scheduled task more often, and/or ensuring that you always have plenty of unused, available hard disk space.</li>
+				<li>_CACHE_SIZE_BUFFER (also measured in kilobytes) is in fact a buffer of sorts, and it is used to help keep the actual size of the cache as close to _MAX_CACHE_SIZE as possible (in between regular executions of the cron job). So, if caching is enabled and the cache size is greater than _MAX_CACHE_SIZE (when the cron job is run), then the oldest files in the cache are deleted one at a time until the cache size is less than _MAX_CACHE_SIZE minus the _CACHE_SIZE_BUFFER value.</li>
+				<li>Ultimately, the goal is to make the cache size a little less than _MAX_CACHE_SIZE after each execution of the cron job, so that the cache size consistently stays under or as close as possible to the _MAX_CACHE_SIZE value. That said, <u>it's not a perfect science</u>, so you'll have to experiment with different values for _MAX_CACHE_SIZE, _CACHE_SIZE_BUFFER, and the frequency with which the cron job runs, to maintain optimal cache size on your server.</li>
+				<li><i><b>Note:</b> Only MP3 files are cached at this time because only MP3 downloads require FFmpeg.</i><li>
+			</ul>
+
+			<b id="copyright">How can I block certain videos at the behest of copyright holders?</b>
+			<ul>
+				<li>The software is equipped with a mechansim to easily disable the download/conversion of any given video or videos. To "block" a video in this way, simply edit the corresponding section of "lib/Config.php":</li>
+				<li><pre class="prettyprint lang-php">// List of YouTube video IDs that are intentionally "blocked" and thus cannot be downloaded/converted
+// E.g., this can be used to disable video download/conversion at the copyright holder's request
+// Each video ID added to the array must be in the format, e.g.: 'J_ub7Etch2U' => 'block'
+public static $_blockedVideos = array(
+	'J_ub7Etch2U' => 'block',
+	'YOUTUBE_VIDEO_ID_HERE' => 'block'
+);
+				</pre></li>
+				</li>Each video ID "element" added to the array must be separated by commas and appear in the following format, e.g.: <i>'J_ub7Etch2U' => 'block'</i></li>
+				<li><i><b>Note:</b> Even cached videos can be blocked in this way!</i></li>
+			</ul>
+		</div>
+
+	<hr />
+	<h3 id="support">Support</h3>
+	<h4 id="software-support">Software Support</h4>
+	<p>Stuff you might like to know about software support:</p>
+	<ol>
+		<li>100% Free support for life!
+			<ul>
+				<li>Ask us a question, and we'll answer it!</li>
+				<li>Working directly on your server is not free.</li>
+			</ul>
+		</li>
+		<li>Regular updates/fixes to the software are Free!
+			<ul>
+				<li><a href="#wrapper">Scroll up to the top of these docs</a> or visit "/inc/update.php" to see if you have the latest version.
+				<li>You will receive email notifications when new versions are released.</li>
+				<li>You can log in and download the software anytime via <a href="https://github.com/login">GitHub</a>.</li>
+			</ul>
+		</li>
+		<li>See <a href="#faq"><b>The FAQ</b></a> for ways to troubleshoot common issues.</li>
+		<li>Human support for this script is provided by:
+			<ul>
+				<li>Posting Issues and Discussions via your <a href="https://github.com/login">GitHub</a> account (for technical support)</li>
+			</ul>
+		</li>
+	</ol>
+
+	<hr />
+	<h3 id="licenses">License</h3>
+	<h4 id="regular-license">Regular License</h4>
+	<p>A Regular License is identical to the standard <a href="../LICENSE">MIT License</a>.</p>
+
+	<hr />
+	<h3 id="changelog">Changelog</h3>
+	<h4 id="software-changelog">Software Changelog</h4>
+	<p>Version 1.69 (04.25.2024)</p>
+	<ul>
+		<li>Added <a href="#config-ipv6">Dynamic IPv6 Generation</a> feature to automatically generate and use a different, random IPv6 interface every X duration to circumvent temporary YouTube IP bans</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>	
+	<p>Version 1.68 (03.10.2024)</p>
+	<ul>
+		<li>Added Config setting that optionally replaces "Top Videos" results per country with generic, homepage markup
+			<ul>
+				<li>Nearly eliminates YouTube API consumption when used in conjunction with <a href="#config-search">YouTube.com Search Scraping</a></li>
+				<li>Speeds up homepage load time</li>
+				<li>Enables homepage customization via the active Template and Language translation files</li>
+			</ul>
+		</li>
+		<li>Replaced AddThis social media sharing widget with ShareThis widget because the former service was discontinued</li>
+		<li>Added support for additional YouTube video URL format in search results</li>
+		<li>Fixed issue in which url-encoded space characters in URLs caused HTTP 403 errors</li>
+		<li>Fixed issue in which certain, special characters in file names caused download failure</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.67 (03.10.2023)</p>
+	<ul>
+		<li>Fixed bug that caused excessive, duplicate download requests, resulting in significant performance degradation on high-traffic sites</li>
+		<li>Added more granular control over SEO linking strategy by adding the following new settings to Config file:
+			<ul>
+				<li>Enable/Disable video title links in search results</li>
+				<li>Enable/Disable all search query links, including video tag links in search results</li>
+				<li>Enable/Disable the dynamic generation of XML sitemaps containing links to popular videos for each supported country</li>
+				<li>Enable/Disable the dynamic generation of an XML sitemap containing only "static" pages (e.g., the home, FAQ, and Contact pages)
+					<ul>
+						<li>Add/Remove static page links in this sitemap, as needed</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li>Added Config setting that enables WEBP or default JPG thumbnail images for each video in search results</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>	
+	<p>Version 1.66 (03.01.2023)</p>
+	<ul>
+		<li>Improved download speed by bypassing YouTube-imposed bandwidth throttling of DASH audio/video formats</li>
+		<li>Added support for <a href="https://redis.io/">Redis</a> in-memory caching of common MySQL database queries to reduce database overhead</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>	
+	<p>Version 1.65 (01.11.2023)</p>
+	<ul>
+		<li>Fixed some bugs related to PHP 8.1+ support</li>
+		<li>Added _REQUEST_IP_VERSION constant to "lib/Config.php" to force audio/video download link generation and browser download requests to use the same IP version (to prevent potential, related download failures)</li>
+		<li>Improved custom error handling</li>
+		<li>Added another test to initial "Config Check" utility</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.64 (01.04.2023)</p>
+	<ul>
+		<li>Enabled support for PHP 8.1+ in addition to PHP 7.4 and dropped support for earlier PHP versions</li>
+		<li>Added support for more native YouTube video and audio formats</li>
+		<li>Included option in Config file for "<a href="#simulated-mp3">Simulated MP3</a>" that:
+			<ul>
+				<li>Generates MP3 files by renaming the source audio file extension to .mp3</li>
+				<li>Enables MP3 generation without FFmpeg, resulting in a significant savings of CPU resources</li>
+				<li>Results in MP3 files that may not be playable in all audio/media players and lack file metadata</li>
+			</ul>
+		</li>
+		<li>Added custom, application-level error handling, logging PHP errors to .ht_error_log file in "store" folder</li>
+		<li>Updated getID3 vendor library, which facilitates metadata extraction from media files</li>
+		<li>Fixed Node.js fallback extraction mechanism, and enabled automatic Node.js installation via initial "Config Check" utility</li>
+		<li>Improved formatting/presentation of XML sitemaps and sitemap index file</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.63 (12.30.2021)</p>
+	<ul>
+		<li>Improved page load speed and general software performance</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.62 (12.27.2021)</p>
+	<ul>
+		<li>Replaced video dislikes and rating with "tags" (i.e., keywords) for each video in Search Results and Music Charts to accommodate YouTube's recent removal of public dislike count data</li>
+		<li>Added "default-alt" and "xeon-alt" templates, which are subtle variations of their non-"alt" eqivalents and (by default) display video description excerpts instead of tags</li>
+		<li>Added Node.js as an optional software dependency, used only to eliminate bandwidth throttling (and subsequent slow downloads) associated with backup YouTube.com sources</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.61 (10.27.2021)</p>
+	<ul>
+		<li>Fixed a bug that caused HTTP requests to YouTube to fail for servers configured to use <a href="https://en.wikipedia.org/wiki/HTTP/2">HTTP/2</a></li>
+		<li>Corrected header logo size in the "xeon" template on mobile devices</li>
+		<li>Fixed a bug in music player that prevented audio playback of other videos in Search Results and Music Charts IF the player was already open</li>
+		<li>Fixed a bug that generated incomplete MP3 files in cache IF end user canceled browser download while file was saving to cache</li>
+		<li>Updated some deprecated "getID3" vendor library code</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.6 (10.15.2021)</p>
+	<ul>
+		<li>Decoupled <a href="#yt-api-quota">"YouTube.com search scraping"</a> from <a href="#yt-captcha">IP Rotation</a>, so that the latter is no longer a prerequisite for the former</li>
+		<li><a href="#config-search">Enabled YouTube.com search scraping</a> (using the primary server IP) by default</li>
+		<li>Improved YouTube.com search scraping such that searches now generally return more results</li>
+		<li>Completely overhauled and fortified the YouTube "extractor" file:
+			<ul>
+				<li>Scraped video info/links and search results are now obtained from up to 3 different YouTube.com sources</li>
+				<li>I.e., if one source fails, then the next source is tried, and so on -- in an effort to maximize long-term software stability</li>
+				<li>As long as the primary YouTube.com source continues to work (as it does now), then there are "no" IP bans and/or CAPTCHAs</li>
+				<li>IF ever a quota/limit is imposed for requests issued via the primary YouTube.com source, then IP Rotation can be enabled for ANY/ALL YouTube requests</li>
+			</ul>
+		</li>
+		<li>Discontinued Anti-Captcha Plugin due to its current inability to effectively circumvent IP bans and CAPTCHAs (BUT left Plugin "hooks" in software, in case this changes in the future)</li>
+		<li>Updated and enhanced "Config Check" utility to support some new server/software requirements</li>	
+		<li>Improved music/audio player performance</li>
+		<li>Added more countries to Music Charts and corresponding XML sitemaps, and removed countries that are no longer supported</li>	
+		<li>Improved and expanded scope of software.xml update mechanism</li>
+		<li>Updated and improved software documentation</li>
+		<li>Implemented ionCube encoding of some files in the "/lib" folder (that are NOT required for software customization) as well as strict enforcement of software licensing</li>
+		<li>Fixed FFmpeg conversion issue that could potentially create unwanted "zombie" processes on server (which would consume unnecessary server resources)</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.52 (03.15.2021)</p>
+	<ul>
+		<li>Updated the YouTube "extractor" file:
+			<ul>
+				<li>Improved extraction of YouTube download URLs</li>
+				<li>"YouTube.com search scraping" yields more and better quality search results</li>
+				<li>Forced scraped video/search data to use the _DEFAULT_LANGUAGE in "lib/Config.php"</li>
+			</ul>
+		</li>
+		<li>Improved "<a href="#">Anti-Captcha Plugin</a>" integration and documentation</li>
+		<li>Enhanced general effectiveness of "Config Check" utility (that appears during installation)</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.51 (10.26.2020)</p>
+	<ul>
+		<li>Updated and improved extraction of YouTube download URLs</li>
+		<li>Added additional security to download URLs (i.e., "@download" requests) to fix an exploit that enabled unauthorized 3rd parties to consume, share, and generally abuse these links</li>
+		<li>Generally bolstered the security of other "protected" software requests</li>
+		<li>Updated and enhanced "YouTube.com search scraping" functionality, in response to YouTube changes</li>
+		<li>Prepped the software for compatibility with new "<a href="#">Anti-Captcha Plugin</a>"</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.5 (05.14.2020)</p>
+	<ul>
+		<li>Added the <a href="#yt-api-quota">"YouTube.com search scraping"</a> feature that, when enabled, eliminates the vast majority of YouTube Data API requests that were previously required for keyword searches</li>
+		<li>Added the <a href="#api">JSON "Search" API</a>, which relies on "YouTube.com search scraping" and functions with little-to-no dependence on the YouTube API</li>
+		<li>Included an easy-to-use "proxy checker" tool in the "docs" folder to quickly determine the validity of proxy IPs used for <a href="#yt-captcha">IP Rotation</a> and/or "YouTube.com search scraping"</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.48 (02.02.2020)</p>
+	<ul>
+		<li>Added <a href="#yt-captcha">the "sequential" database and Tor IP rotation methods</a> as alternatives to the original "round-robin" database method</li>
+		<li>Removed additional YouTube requests during the generation of Video Streams links (and subsequently sped up Video Streams links generation) by eliminating the validation of nonessential remote file formats</li>
+		<li>Improved IP ban/CAPTCHA detection to generally strengthen the integrity of IP rotation</li>
+		<li>Updated and improved YouTube download URLs extraction</li>
+		<li>Extended "chunked" download option to include low-quality "non-DASH" video formats</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.47 (08.22.2019)</p>
+	<ul>
+		<li>When IP rotation is enabled, the corresponding _DISABLE_IP_FOR_DOWNLOAD constant in "lib/Config.php" is set to "true", and the initial download request sent via the server IP fails, then the code will retry the download with the current IP in rotation</li>
+		<li>Download buttons corresponding to cached MP3 files will now be displayed even if there are no available, working IPs</li>
+		<li>If all available MP3 qualities for a given video are cached, then additional video info is extracted from a cached MP3 file's metadata instead of from YouTube, to improve download button/link generation speed and eliminate unnecessary YouTube requests</li>
+		<li>Added optional "social sharing" button to each video in Search Results and Music Charts, that, when clicked, leverages the <a href="https://www.addthis.com/get/share/">AddThis</a> widget inside of the subsequent modal popup window</li>
+		<li>Moved list of available MP3 qualities to "lib/Config.php" so that they can be more easily configured</li>
+		<li>Fixed issue that sometimes prevented videos with unicode characters in the video title from caching correctly</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.46 (07.30.2019)</p>
+	<ul>
+		<li>Updated YouTube video extraction to accommodate new location of some video data.</li>
+	</ul>
+	<p>Version 1.45 (07.26.2019)</p>
+	<ul>
+		<li>Further updated the IP rotation mechanism to:
+			<ul>
+				<li>Temporarily skip IPs that return a cURL error, cannot connect, and/or take too long to complete a given YouTube request</li>
+				<li>Optionally prevent IPs from being used for video/audio file download requests</li>
+				<li>Force slow downloads to time out eventually, if IPs are used for video/audio file download requests</li>
+			</ul>
+		</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.44 (07.18.2019)</p>
+	<ul>
+		<li>Updated the IP rotation mechanism (in response to lower YouTube HTTP request limit per IP) to:
+			<ul>
+				<li>Accommodate proxy IPs as well as IPs configured as outgoing network interfaces</li>
+				<li>Enable the use of proxy IPs and interfaces concurrently</li>
+				<li>Skip banned IPs in rotation to facilitate faster release of IP bans</li>
+				<li>Fix bug that was sometimes using IPs in rotation for @download requests (instead of YouTube requests), potentially resulting in uneven use of IPs (for YouTube requests)</li>
+			</ul>
+		</li>
+		<li>Removed one unnecessary YouTube HTTP request sent during the generation of download links</li>
+		<li>Reduced YouTube API units used (to lessen impact on <a href="https://developers.google.com/youtube/v3/getting-started#quota">API quota</a>) by replacing more "expensive" <a href="https://developers.google.com/youtube/v3/docs/search/list">search</a> requests with <a href="https://developers.google.com/youtube/v3/docs/videos/list">video</a> requests for the following types of URLs and search terms, e.g.:
+			<ul>
+				<li>https://yoursite.com/Katy-Perry-Roar-Official-(CevxZvSJLk8)
+					<ul>
+						<li>Used for 1) video title links in Search Results / Music Charts and 2) page URLs in XML Sitemaps</li>
+					</ul>
+				</li>
+				<li>https://yoursite.com/@shareimg/share-CevxZvSJLk8.png
+					<ul>
+						<li>Used for HTML meta "og:image" tags in Search Results</li>
+					</ul>
+				</li>
+				<li>https://www.youtube.com/watch?v=CevxZvSJLk8</li>
+				<li>https://youtu.be/CevxZvSJLk8</li>
+			</ul>
+		</li>
+		<li>Added progress bar for YouTube search results</li>
+		<li>Added video thumbnail URL and duration to all JSON API endpoints' output</li>
+		<li>Added support for the download of 8k quality video, if available</li>
+		<li>Disabled "Content-Length" HTTP header for MP3 downloads, resolving intermittent MP3 download failures in Firefox and/or when Cloudflare/Nginx is used</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.43 (06.12.2019)</p>
+	<ul>
+		<li>Updated and improved YouTube download URL extraction</li>
+		<li>Updated and improved the mechanism used to detect encrypted YouTube videos and decrypt them</li>
+		<li>Further protected against content scraping (and general abuse) of JSON and Button/Iframe APIs as well as AJAX URLs</li>
+		<li>Added ability to enable <a href="https://developers.google.com/recaptcha/docs/invisible">Google's "Invisible" reCAPTCHA</a> for search form submissions</li>
+		<li>Eliminated multiple file extensions in MKV file names</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.42 (11.17.2018)</p>
+	<ul>
+		<li>Changed MP4 file formats to MKV in the "Video Streams" sections of video charts and search results, as well as in the "mergedstreams" option of the JSON and Button/Iframe APIs, to:
+			<ul>
+				<li>Fix issue that prevented "seeking" (i.e., moving forwards and backwards) during playback of corresponding downloaded videos on many media players and devices</li>
+			</ul>
+		</li>
+		<li>Included option in Config file to edit default "MKV" label on download buttons, in JSON API, and at the end of download URLs</li>
+		<li>Added file sizes to download buttons in the "Video Streams" sections of video charts and search results, as well as in the "mergedstreams" option of the JSON and Button/Iframe APIs</li>
+	</ul>
+	<p>Version 1.41 (11.15.2018)</p>
+	<ul>
+		<li>Added a "Video Streams" option to each item listed in video charts and search results, and included a "mergedstreams" option with the JSON and Button/Iframe APIs, that:
+			<ul>
+				<li>Increases the number of available "composite" video + audio download options and qualities (including HD and Ultra HD) for a given video</li>
+				<li>Merges "DASH" Video-Only and Audio-Only streams via FFmpeg stream copy</li>
+				<li>Addresses YouTube's recent removal of HD "non-DASH" video download links</li>
+			</ul>
+		</li>
+		<li>Added ability to show/hide "Videos" and/or "Video Streams" options for each listed item in video charts and search results</li>
+		<li>Added ability to show/hide "videos" and/or "mergedstreams" options on the API instructions page</li>
+		<li>Enabled optional "chunked" download of all available file types (except low-quality "non-DASH" video formats), to increase download speed when/if YouTube throttles their bandwidth</li>
+		<li>Introduced the optional use of high-quality "DASH" audio formats for MP3 conversions</li>
+		<li>Improved the quality of search results when searching some video page URLs</li>
+		<li>Enabled automatic search form submission when a search suggestion is selected</li>
+		<li>Consolidated and reduced the number of requests to YouTube when validating video download URLs</li>
+		<li>Fixed bug that could potentially allow multiple users to simultaneously trigger purging of the "links" or "api" cache folders, resulting in attempts to delete nonexistent (i.e., already deleted) cached files</li>
+		<li>Implemented complex sorting of all available download formats for any given video to end reliance on YouTube's volatile format order</li>
+		<li>Resolved issue that caused an error message to display when cached MP3 files were available but corresponding YouTube download links were otherwise unavailable or nonfunctional</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.4 (04.11.2018)</p>
+	<ul>
+		<li>Introduced optional caching of "popular" MP3 files</li>
+		<li>Consolidated and reduced the number of unique YouTube API requests required</li>
+		<li>Enabled automatic caching of YouTube API requests</li>
+		<li>Added mechanism to block the download/conversion of specific videos at the behest of copyright holders</li>
+		<li>Automated installation of FFmpeg and cURL binaries via the software's "Config Check" utility</li>
+		<li>Enabled further flexibility of website interface and access control depending on JSON/Button API preferences</li>
+		<li>Added multi-language support for additional translations, and added Portuguese language support</li>
+		<li>Fixed bug that halted further processing of additional, available YouTube download URLs if any single download URL was determined to be invalid (i.e., if it returned a HTTP 403 response)</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.33 (02.26.2018)</p>
+	<ul>
+		<li>Omitted "Content-Length" HTTP header for MP3 downloads IF the user agent is Firefox (desktop version), resolving intermittent MP3 download failures in Firefox. (Other browsers/platforms are <i>not</i> affected.)</li>
+	</ul>
+	<p>Version 1.32 (02.11.2018)</p>
+	<ul>
+		<li>Switched to "non-DASH" video formats for MP3 conversion to avoid slow conversions caused by YouTube-imposed <a href="https://en.wikipedia.org/wiki/Bandwidth_throttling">throttling</a> of "DASH" audio downloads</li>
+		<li>Modified all download URLs to use the "redirector.googlevideo.com" subdomain, to generally improve download availability and performance</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.31 (05.05.2017)</p>
+	<ul>
+		<li>Fixed bug preventing audio playback in Integrated Music Player</li>
+	</ul>
+	<p>Version 1.3 (04.25.2017)</p>
+	<ul>
+		<li>Added JSON REST API and Button/Iframe API, API instructions page, and corresponding documentation</li>
+		<li>Added ability to download all but MP3 formats directly from YouTube, completely bypassing server</li>
+		<li>Added ability to download/convert age-restricted YouTube videos</li>
+		<li>Added search suggestions and auto-complete to front page search form</li>
+		<li>Added "layouts" folder to templates, enabling multiple header/footer files for the same template</li>
+		<li>Added ability to disable regular website interface (e.g., if only API is needed)</li>
+		<li>YouTube API requests are retried upon failure, using a new API key when multiple API keys are present</li>
+		<li>Fixed bug that prevented MP3 downloads when Cloudflare SSL is active</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.2 (02.03.2017)</p>
+	<ul>
+		<li>Added dynamic Meta and Open Graph tags for video searches</li>
+		<li>Added dynamic "share images" for video searches</li>
+		<li>Automated generation of robots.txt file</li>
+		<li>Automated generation of XML sitemap index file and associated XML sitemaps</li>
+		<li>Added hreflang values to static pages and sitemap URLs</li>
+		<li>Added multi-language support and translation engine</li>
+		<li>Automated language and country detection for translations and "Top Music Videos", respectively</li>
+		<li>Moved the majority of URL rewriting rules from .htaccess to "app/Core/Router.php"</li>
+		<li>Enabled search URLs with the following formats:
+			<ul>
+				<li>http://mysite.com/{Keyword or Keywords}</li>
+				<li>http://mysite.com/{Video Id}</li>
+				<li>http://mysite.com/watch?v={Video Id}</li>
+				<li>http://mysite.com/{YouTube Video URL}</li>
+			</ul>
+		</li>
+		<li>Added search URL link to each video title in search results</li>
+		<li>Facilitated search bot crawling of code if JavaScript is "not" enabled</li>
+		<li>Implemented various, minor fixes and refactoring of code</li>
+	</ul>
+	<p>Version 1.11 (01.20.2017)</p>
+	<ul>
+		<li>Fixed the mechanism used to detect encrypted YouTube videos</li>
+	</ul>
+	<p>Version 1.1 (09.30.2016)</p>
+	<ul>
+		<li>Added support for multiple YouTube API keys, to extend API usage quota limits</li>
+		<li>Added "xeon" template to collection of available template designs</li>
+		<li>Video preview button now opens the corresponding video in a FancyBox modal window instead of a new tab</li>
+		<li>Added protection against content scraping of AJAX URLs</li>
+		<li>Added support for more countries in the Top Videos lists</li>
+		<li>Fixed downloaded/converted file incompatibility issue with third-party video/audio editors</li>
+		<li>Fixed bug that prevented the passing of arguments to "element" files</li>
+		<li>Added ability to pass template-specific variable values to generic "page" and "element" files</li>
+		<li>Added "url rewriting" test and support for testing multiple YouTube API keys in "Config Check" utility</li>
+		<li>Updated the Server Configuration, Software Installation, FAQ, and Changelog sections of these docs</li>
+	</ul>
+	<p>Version 1.01 (07.16.2016)</p>
+	<ul class="ext-license">
+		<li>Fixed Error 404 page styles, in some cases</li>
+		<li>Provided option to forward all http:// requests to https:// via .htaccess</li>
+		<li>Fixed bug affecting the video duration format displayed on thumbnail images</li>
+		<li>Updated the Server Configuration, FAQ, and Changelog sections of these docs</li>
+		<li>Fixed url encoding issue that prevented download of some videos</li>
+		<li>Fixed url encoding issue that adversely affected searching with certain keywords</li>
+	</ul>
+
+    </div>
+  </div>
+</section>
+<section class="vibrant centered">
+  <div class="">
+    <h4></h4>
+  </div>
+</section>
+<footer>
+  <div class="">
+    <p>Made with ❤️ by PureDev Labs</p>
+  </div>
+</footer>
+</div>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/prettify/prettify.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=css&skin=sunburst"></script>
+<script src="js/layout.js"></script>
+<script type="text/javascript">
+	$(document).on('click', 'a', function(e){
+		if (/^(#|mailto)/.test($(this).attr('href')) == false)
+		{
+			window.open($(this).attr('href'));
+			return false;
+		}
+	});
+</script>
+</body>
+</html>

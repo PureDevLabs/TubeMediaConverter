@@ -1,0 +1,38 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    #Enable URL rewriting
+    	RewriteEngine On
+    	
+    #Uncomment the following lines as instructed to redirect all http:// requests to https://
+    #If using Cloudflare SSL, uncomment this line
+    	#RewriteCond %{HTTP:CF-Visitor} {"scheme":"http"}
+    #If NOT using Cloudflare SSL and using HTTP Proxy (e.g., OVH Load Balancer), uncomment this line
+    	#RewriteCond %{HTTP:X-Forwarded-Proto} !https    	
+    #If NOT using Cloudflare SSL or HTTP Proxy, uncomment this line
+    	#RewriteCond %{HTTPS} off
+    #Always uncomment these lines
+    	#RewriteCond %{REQUEST_URI} (.*[^\.][^m][^p][^3])$ [or]
+    	#RewriteCond %{REQUEST_URI} ^(/)$
+    	#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]    	
+    	
+    #If using Cloudflare SSL
+    	#RewriteCond %{HTTP:CF-Visitor} {"scheme":"https"}
+    	#RewriteCond %{REQUEST_URI} (\.mp3)$
+    	#RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]     	
+        
+    #Redirect to robots.txt
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteCond %{REQUEST_FILENAME} !-f 
+		RewriteRule ^(robots\.txt)$ store/$1 [QSA,L] 
+    
+    #Test URL Rewriting (config check only)
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteRule (test-url-rewriting)$ inc/version.php [QSA,L]     
+
+    #Redirect to active template    	
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteRule ^(.*)$ index.php?req=$1&%{QUERY_STRING} [B,QSA,L]           	
+</IfModule>
