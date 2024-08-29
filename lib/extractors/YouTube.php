@@ -25,6 +25,8 @@
 		const _THUMB_FILES = ['lq' => 'default', 'mq' => 'mqdefault', 'hq' => 'hqdefault'];
 		const _HOMEPAGE_URL = 'https://www.youtube.com';
 		const _COOKIES_FILE = 'ytcookies.txt';
+		const _BASE_JS = 'base.js';
+		const _TRUSTED_SESS_JSON = 'ytsession.json';
 		
 		// Fields
 		protected $_cypherUsed = false;
