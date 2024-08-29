@@ -64,7 +64,8 @@
                         $fp = fopen($sessJsonPath, 'w');
                         if ($fp !== false && flock($fp, LOCK_EX))
                         {
-                            if (preg_match('/\WsignatureTimestamp:(\d+)\D/i', (string)$response, $sigTimestamp) == 1)
+                            $basejsCode = (is_file($basejsPath)) ? (string)file_get_contents($basejsPath) : '';
+                            if (preg_match('/\WsignatureTimestamp:(\d+)\D/i', $basejsCode, $sigTimestamp) == 1)
                             {
                                 $json['sigTimestamp'] = $sigTimestamp[1];
                             }
