@@ -25,6 +25,8 @@
 		const _THUMB_FILES = ['lq' => 'default', 'mq' => 'mqdefault', 'hq' => 'hqdefault'];
 		const _HOMEPAGE_URL = 'https://www.youtube.com';
 		const _COOKIES_FILE = 'ytcookies.txt';
+		const _BASE_JS = 'base.js';
+		const _TRUSTED_SESS_JSON = 'ytsession.json';
 		
 		// Fields
 		protected $_cypherUsed = false;
@@ -35,16 +37,15 @@
 		private $_xmlFileHandle = null;
 		private $_jsonTemp = '';
 		private $_retrySearchParams = '';
-		private $_jsPlayerUrl = '';
+		private $_trustedSessData = [];
 		private $_nsigs = array();
 		private $_nodeJS = '';
 		private $_rake = null;
 		private $_apiClients = array(
 			// See https://github.com/zerodytrash/YouTube-Internal-Clients#clients
-			"android" => array('name' => 'ANDROID_TESTSUITE', 'version' => '1.9', 'sts' => '19464')
-			//"android" => array('name' => 'ANDROID', 'version' => '17.36.4', 'sts' => '19464')
-			//"ios" => array('name' => 'IOS', 'version' => '17.33.2', 'sts' => '19464')
-			//"web" => array('name' => 'WEB', 'version' => '2.20230421.01.00', 'sts' => '19464')
+			"web" => ['name' => 'WEB', 'version' => '2.20230421.01.00', 'sts' => '19464'],
+			"android" => ['name' => 'ANDROID_TESTSUITE', 'version' => '1.9', 'sts' => '19464']
+			//"ios" => ['name' => 'IOS', 'version' => '17.33.2', 'sts' => '19464']
 		);
 		private $_renderers = array(
 			'showingResultsForRenderer', 
@@ -164,7 +165,7 @@
 				{
 					$lastError = (int)$info[0]->lasterror;
 					$currentTime = time();					
-					if ($currentTime - $lastError > 900)
+					if ($currentTime - $lastError > 600)
 					{
 						$version = (string)$info[0]->version;
 						$updateUrlPrefix = 'http://puredevlabs.cc/update-video-converter-v3/v:' . $version . '/';
@@ -172,8 +173,8 @@
 						if (isset($updateVars['signature']) && !empty($updateVars['signature']))
 						{
 							$sigLength = strlen($updateVars['signature']);
-							if (empty($this->GetJsPlayerUrl())) $this->SetJsPlayerUrl();
-							$updateUrl = $updateUrlPrefix . 'sl:' . $sigLength . '/jp:' . base64_encode($this->GetJsPlayerUrl());
+							$basejs = $this->TrustedSessData('basejs');
+							$updateUrl = $updateUrlPrefix . 'sl:' . $sigLength . '/jp:' . base64_encode($basejs);
 						}
 						else
 						{
@@ -395,21 +396,63 @@
 								$origin = self::_HOMEPAGE_URL;
 								$timestamp = time();
 								$authHash = 'SAPISIDHASH ' . $timestamp . '_' . sha1($timestamp . ' ' . $cmatch[1] . ' ' . $origin);
-								$vidInfoPostData = '{"context":{"client":{"clientName":"' . $cname . '","clientVersion":"' . $cversion . '","hl":"' . Config::_DEFAULT_LANGUAGE . '"}},"playbackContext":{"contentPlaybackContext":{"signatureTimestamp":"' . $sts . '"}},';
-								$vidInfoPostData .= (!empty($this->_retrySearchParams)) ? '"params":"' . $this->_retrySearchParams . '",' : '';
-								$vidInfoPostData .= ($isSearch) ? '"query"' : '"videoId"';
-								$vidInfoPostData .= ':"' . $vidIdOrSearchTerm . '","contentCheckOk":true,"racyCheckOk":true}';
-								$vidInfoHeaders = array(
+								$sessData = $this->TrustedSessData();
+
+								$vidInfoPostData = [
+									'context' => [
+										'client' => [
+											'clientName' => $cname,
+											'clientVersion' => $cversion,
+											'hl' => Config::_DEFAULT_LANGUAGE
+										]
+									],
+									'playbackContext' => [
+										'contentPlaybackContext' => [
+											'signatureTimestamp' => $sessData['sigTimestamp'] ?? $sts
+										]
+									],
+									'contentCheckOk' => true,
+									'racyCheckOk' => true
+								];
+								if (!empty($this->_retrySearchParams))
+								{
+									$vidInfoPostData['params'] = $this->_retrySearchParams . '",';
+								}
+								if ($isSearch)
+								{
+									$vidInfoPostData['query'] = $vidIdOrSearchTerm;
+								}
+								else
+								{
+									$vidInfoPostData['videoId'] = $vidIdOrSearchTerm;
+								}
+
+								$vidInfoHeaders = [
 									'Content-Type: application/json',
 									'X-Goog-Api-Key: ' . $keyhash,
 									'Cookie: ' . $cookies,
 									'x-origin: ' . $origin
-								);
+								];
 								if (!empty($cmatch[1]))
 								{
 									$vidInfoHeaders[] = 'Authorization: ' . $authHash;
 								}
-								$response = $this->FileGetContents($apiUrl, $vidInfoPostData, $vidInfoHeaders);
+
+								if ($client == "web")
+								{
+									$vidInfoPostData['context']['client']['visitorData'] = $sessData['visitorData'] ?? '';
+									$vidInfoPostData['context']['client']['userAgent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36,gzip(gfe)';
+									$vidInfoPostData['context']['user'] = [
+										'lockedSafetyMode' => false
+									];
+									$vidInfoPostData['serviceIntegrityDimensions'] = [
+										"poToken" => $sessData['poToken'] ?? ''
+									];
+									$vidInfoHeaders = array_diff_key($vidInfoHeaders, [1=>1, 2=>2, 4=>4]);
+								}
+
+								//die(print_r($vidInfoHeaders));
+								$response = $this->FileGetContents($apiUrl, json_encode($vidInfoPostData), $vidInfoHeaders);
 								//die($response);
 							}
 							break;
@@ -428,6 +471,7 @@
 			foreach ($clients as $client)
 			{
 				$reqType = ($isSearch) ? "searchApi" : "vidApi";
+				if ($isSearch && $client != "android") continue;
 				$response = $this->VideoInfoRequest($vidIdOrSearchTerm, $reqType, $client, $this->_apiClients[$client]);
 				if (!$this->CheckValidVidInfo($response, $reqType))
 				{
@@ -704,6 +748,7 @@
 			if (isset($vars['c']) && preg_match('/^(web)$/i', $vars['c']) == 1 && isset($vars['n']))
 			{
 				$vars['n'] = $this->DecryptNSigCypher($vars['n']);
+				$vars['pot'] = $this->TrustedSessData('poToken');
 			}
 			
 			if (isset($vars['type'])) $vars['type'] = urlencode($vars['type']);
@@ -732,20 +777,24 @@
 			$nsigDecrypted = $nsig;
 			if (empty($this->_nodeJS))
 			{
-				if (empty($this->GetJsPlayerUrl())) $this->SetJsPlayerUrl();
-				$playerUrl = (preg_match('/^((\/{1})(?=\w))/i', $this->GetJsPlayerUrl()) == 1) ? 'http://www.youtube.com' . $this->GetJsPlayerUrl() : $this->GetJsPlayerUrl();
-				//die($playerUrl);
-				$playerJS = $this->FileGetContents($playerUrl);
-				if (!empty($playerJS) && preg_match('/\.get\("n"\)\)&&\([a-zA-Z0-9$]+=([a-zA-Z0-9$]+)(\[\d+\])?\([a-zA-Z0-9$]+\)/', $playerJS, $pmatch) == 1)
+				$playerJS = $this->TrustedSessData('basejsCode');
+				if (!empty($playerJS) && preg_match('/(?x)(?:\.get\("n"\)\)&&\(b=|(?:b=String\.fromCharCode\(110\)|(?P<str_idx>[a-zA-Z0-9_$.]+)&&\(b="nn"\[\+(?P=str_idx)\])(?:,[a-zA-Z0-9_$]+\(a\))?,c=a\.(?:get\(b\)|[a-zA-Z0-9_$]+\[b\]\|\|null)\)&&\(c=|\b(?P<var>[a-zA-Z0-9_$]+)=)(?P<nfunc>[a-zA-Z0-9_$]+)(?:\[(?P<idx>\d+)\])?\([a-zA-Z]\)(?(var),[a-zA-Z0-9_$]+\.set\("n"\,(?P=var)\),(?P=nfunc)\.length)/', $playerJS, $pmatch) == 1)
 				{
-					//die($pmatch[1]);
-					//die($pmatch[2]);
-					$fname = (!empty($pmatch[2]) && preg_match('/var ' . preg_quote($pmatch[1], "/") . '\s*=\s*\[([^\]]+)\];/', $playerJS, $fmatch)) ? $fmatch[1] : $pmatch[1];
-					$fNamePattern = preg_quote($fname, "/");
-					if (preg_match('/((function\s+' . $fNamePattern . ')|([\{;,]\s*' . $fNamePattern . '\s*=\s*function)|(var\s+' . $fNamePattern . '\s*=\s*function))\s*\(([^\)]*)\)\s*\{(.+?)\};\n/s', $playerJS, $nsigFunc) == 1)
-					{
-						//die(print_r($nsigFunc));
-						$this->_nodeJS = $fname . ' = function(' . $nsigFunc[5] . '){' . $nsigFunc[6] . '}; console.log(' . $fname . '("%nsig%"));';
+				    $fname = $pmatch['nfunc'];
+				    $findex = $pmatch['idx'];
+				    if (preg_match('/var ' . preg_quote($fname, "/") . '=\[([^\]]+)\];/', $playerJS, $pmatch2) == 1)
+				    {
+				        $funcs = explode(",", $pmatch2[1]);
+				        if (isset($funcs[$findex]))
+				        {
+				            $fname = $funcs[$findex];
+							$fNamePattern = preg_quote($fname, "/");
+							if (preg_match('/((function\s+' . $fNamePattern . ')|([\{;,]\s*' . $fNamePattern . '\s*=\s*function)|(var\s+' . $fNamePattern . '\s*=\s*function))\s*\(([^\)]*)\)\s*\{(.+?)\};\n/s', $playerJS, $nsigFunc) == 1)
+							{
+								//die("<pre>" . print_r($nsigFunc, true) . "</pre>");
+								$this->_nodeJS = $fname . ' = function(' . $nsigFunc[5] . '){' . $nsigFunc[6] . '}; console.log(' . $fname . '("%nsig%"));';
+							}
+						}
 					}
 				}
 			}
@@ -887,6 +936,17 @@
 			//print_r($tags); echo "<br><br>";
 			return $tags;
 		}
+
+		protected function TrustedSessData($key=null)
+		{
+			$data = (is_null($key)) ? $this->GetTrustedSessData() : (string)$this->GetTrustedSessData()[$key];
+			if (empty($data)) 
+			{
+				$this->SetTrustedSessData();
+				$data = (is_null($key)) ? $this->GetTrustedSessData() : (string)$this->GetTrustedSessData()[$key];
+			}
+			return $data;
+		}
 		#endregion
 
 		#region Properties
@@ -976,25 +1036,43 @@
 			return $this->_xmlFileHandle;
 		}
 
-		private function SetJsPlayerUrl()
+		private function SetTrustedSessData()
 		{
-			$playerUrl = '';
-			$vidPageSrc = $this->GetVideoWebpage();
-			if (!empty($vidPageSrc) && preg_match(self::_VID_PLAYER_PATTERN, $vidPageSrc, $matches) == 1) 
+			$data = [];
+			$sessJsonPath = $this->GetStoreDir() . YouTube::_TRUSTED_SESS_JSON;
+			$sessJson = (is_file($sessJsonPath)) ? (string)file_get_contents($sessJsonPath) : '';
+			if (!empty($sessJson))
 			{
-				$playerUrl = (empty($matches[3])) ? ((empty($matches[6])) ? $playerUrl : $matches[6]) : $matches[3];
+				$json = json_decode($sessJson, true);
+				$data = (isset($json['visitorData'], $json['poToken'], $json['basejs'], $json['sigTimestamp'])) ? $json : $data;
 			}
-			//die(print_r($matches));
-			if (empty($playerUrl))
+			$basejsPath = $this->GetStoreDir() . YouTube::_BASE_JS;
+			$basejs = (is_file($basejsPath)) ? (string)file_get_contents($basejsPath) : '';
+			if (!empty($basejs))
 			{
-				$ythome = $this->FileGetContents(self::_HOMEPAGE_URL);
-				$playerUrl = (!empty($ythome) && preg_match(self::_VID_PLAYER_PATTERN, $ythome, $matches) == 1 && isset($matches[6]) && !empty($matches[6])) ? $matches[6] : '';
+				$data['basejsCode'] = $basejs;
 			}
-			$this->_jsPlayerUrl = $playerUrl;
+			// Use previous SetJsPlayerUrl() code below as backup for $data['basejs']
+			if (empty($data['basejs']))
+			{
+				$vidPageSrc = $this->GetVideoWebpage();
+				if (!empty($vidPageSrc) && preg_match(self::_VID_PLAYER_PATTERN, $vidPageSrc, $matches) == 1) 
+				{
+					$data['basejs'] = (empty($matches[3])) ? ((empty($matches[6])) ? '' : $matches[6]) : $matches[3];
+				}
+				//die(print_r($matches));
+				if (empty($data['basejs']))
+				{
+					$ythome = $this->FileGetContents(self::_HOMEPAGE_URL);
+					$data['basejs'] = (!empty($ythome) && preg_match(self::_VID_PLAYER_PATTERN, $ythome, $matches) == 1 && isset($matches[6]) && !empty($matches[6])) ? $matches[6] : '';
+				}
+				$data['basejs'] = (!empty($data['basejs']) && preg_match('/^((\/{1})(?=\w))/i', $data['basejs']) == 1) ? self::_HOMEPAGE_URL . $data['basejs'] : $data['basejs'];
+			}
+			$this->_trustedSessData = $data;
 		}
-		private function GetJsPlayerUrl()
+		private function GetTrustedSessData()
 		{
-			return $this->_jsPlayerUrl;
+			return $this->_trustedSessData;
 		}
 		#endregion
 	}
