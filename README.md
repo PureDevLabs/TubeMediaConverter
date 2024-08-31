@@ -20,6 +20,8 @@ lib/extractors/YouTube.php
 
 **Remove cookies from "store/ytcookies.txt" after updating!**
 
+**Node.js is now a software requirement! Install via the Config Check utility (by deleting "store/setup.log").**
+
 ---
 
 ### v1.7
