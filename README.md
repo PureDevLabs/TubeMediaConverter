@@ -2,6 +2,26 @@
 
 ## Changelog:
 
+### v1.71
+- Added ability to use a "Trusted Session" for authenticating YouTube requests 
+  - Trusted Sessions only work when [youtube-trusted-session](https://github.com/PureDevLabs/youtube-trusted-session) is also installed on the SAME server
+  - Trusted Session does NOT require any YouTube accounts
+  - Trusted Sessions automatically regenerate every 2 hours
+  - Trusted Sessions should not require manual, regular maintenance (unlike YouTube login cookies)
+
+#### Updated files
+```
+README.md
+inc/scheduler.php
+inc/version.php
+lib/TrustedSession.php (new)
+lib/extractors/YouTube.php
+```
+
+**Remove cookies from "store/ytcookies.txt" after updating!**
+
+---
+
 ### v1.7
 - Rebranded
 - Removed Licensing
