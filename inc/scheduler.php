@@ -13,6 +13,7 @@
     $sess = new TrustedSession();
 
     // ... configure the scheduled jobs (see below) ...
+    $scheduler->call(function() {return true;})->onlyOne()->at('* * * * *');  // "Placeholder" job that ensures subsequent job output is flushed from output buffer
     if (Config::_ENABLE_DYNAMIC_IPV6)
     {
         echo "\nAttempting IpGenerator task...\n";
@@ -29,6 +30,7 @@
     {
         foreach ($jobs as $job)
         {
+            if ($job == current($jobs)) continue;  // Skip the "Placeholder" job
             echo "\nOutput for Job (" . $job->getId() . ")\n";
             echo "----------\n";
             echo $job->getOutput();

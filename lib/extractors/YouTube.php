@@ -451,7 +451,8 @@
 									$vidInfoHeaders = array_diff_key($vidInfoHeaders, [1=>1, 2=>2, 4=>4]);
 								}
 
-								$response = $this->FileGetContents($apiUrl, $vidInfoPostData, $vidInfoHeaders);
+								//die(print_r($vidInfoHeaders));
+								$response = $this->FileGetContents($apiUrl, json_encode($vidInfoPostData), $vidInfoHeaders);
 								//die($response);
 							}
 							break;
