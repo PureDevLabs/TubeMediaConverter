@@ -43,7 +43,7 @@
 		private $_rake = null;
 		private $_apiClients = array(
 			// See https://github.com/zerodytrash/YouTube-Internal-Clients#clients
-			"web" => ['name' => 'WEB', 'version' => '2.20230421.01.00', 'sts' => '19464'],
+			"web" => ['name' => 'WEB_EXPERIMENTS', 'version' => '1', 'sts' => '19969'],
 			"android" => ['name' => 'ANDROID_TESTSUITE', 'version' => '1.9', 'sts' => '19464']
 			//"ios" => ['name' => 'IOS', 'version' => '17.33.2', 'sts' => '19464']
 		);
