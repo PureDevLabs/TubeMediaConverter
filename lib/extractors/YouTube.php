@@ -745,7 +745,7 @@
 			}
 			$this->_signatures[$vars['itag']] = $vars[$sigParamName];
 
-			if (isset($vars['c']) && preg_match('/^(web)$/i', $vars['c']) == 1 && isset($vars['n']))
+			if (isset($vars['c']) && preg_match('/^(web|web_experiments)$/i', $vars['c']) == 1 && isset($vars['n']))
 			{
 				$vars['n'] = $this->DecryptNSigCypher($vars['n']);
 				$vars['pot'] = $this->TrustedSessData('poToken');
