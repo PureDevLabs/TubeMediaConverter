@@ -2,6 +2,19 @@
 
 ## Changelog:
 
+### v1.72
+- Updated "client" used with YouTube player API requests (in response to a new YouTube change)
+
+#### Updated files
+```
+README.md
+lib/extractors/YouTube.php
+```
+
+**Delete "store/software.xml" after updating!**
+
+---
+
 ### v1.71
 - Added ability to use a "Trusted Session" for authenticating YouTube requests 
   - Trusted Sessions only work when [youtube-trusted-session](https://github.com/PureDevLabs/youtube-trusted-session) is also installed on the SAME server
