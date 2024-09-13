@@ -2,6 +2,15 @@
 
 ## Changelog:
 
+### v1.73
+
+Fixes:
+- Updated "client" used with YouTube player API requests (in response to a new YouTube change)
+
+Full Changelog: [v1.72...v1.73](https://github.com/PureDevLabs/TubeMediaConverter/compare/v1.72...v1.73)
+
+---
+
 ### v1.72
 - Updated "client" used with YouTube player API requests (in response to a new YouTube change)
 
