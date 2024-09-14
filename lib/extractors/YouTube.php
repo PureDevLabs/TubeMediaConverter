@@ -43,7 +43,7 @@
 		private $_rake = null;
 		private $_apiClients = array(
 			// See https://github.com/zerodytrash/YouTube-Internal-Clients#clients
-			"web" => ['name' => 'WEB_CREATOR', 'version' => '1.20220918', 'sts' => '19969'],
+			"web" => ['name' => 'WEB_CREATOR', 'version' => '1.20240723.03.00', 'sts' => '19969'],
 			"android" => ['name' => 'ANDROID_TESTSUITE', 'version' => '1.9', 'sts' => '19464']
 			//"ios" => ['name' => 'IOS', 'version' => '17.33.2', 'sts' => '19464']
 		);
@@ -355,10 +355,10 @@
 			}
 			return $retVal;
 		}
-		
-		protected function VideoInfoRequest($vidIdOrSearchTerm, $reqType, $client='', $clientInfo=array())
+
+		protected function VideoInfoRequestParams($client='', $clientInfo=[])
 		{
-			$response = '';
+			$params = [];
 			$clientInfo = (empty($clientInfo)) ? ['sts' => '', 'name' => '', 'version' => ''] : $clientInfo;
 			if (is_null($this->GetSoftwareXml())) $this->SetSoftwareXml();
 			$xmlFileHandle = $this->GetSoftwareXml();
@@ -374,91 +374,103 @@
 					$sts = (isset($rp->{$client}[0]->sts) && !empty($rp->{$client}[0]->sts)) ? trim(base64_decode((string)$rp->{$client}[0]->sts)) : $clientInfo['sts'];
 					$cname = (isset($rp->{$client}[0]->cname) && !empty($rp->{$client}[0]->cname)) ? trim(base64_decode((string)$rp->{$client}[0]->cname)) : $clientInfo['name'];
 					$cversion = (isset($rp->{$client}[0]->cversion) && !empty($rp->{$client}[0]->cversion)) ? trim(base64_decode((string)$rp->{$client}[0]->cversion)) : $clientInfo['version'];
-					switch ($reqType)
-					{
-						case "vidPage":													
-							$response = $this->FileGetContents(self::_VID_URL_PREFIX . $vidIdOrSearchTerm . "&hl=" . Config::_DEFAULT_LANGUAGE . "&persist_hl=1", '', array('Cookie: ' . $cookies));
-							//die($response);								
-							break;
-						case "searchPage":
-							$searchUrl = (!empty($this->_retrySearchParams)) ? self::_HOMEPAGE_URL . $this->_retrySearchParams : self::_SEARCH_URL_PREFIX . urlencode($vidIdOrSearchTerm) . "&page=1";
-							$searchUrl .= "&hl=" . Config::_DEFAULT_LANGUAGE . "&persist_hl=1";
-							$response = $this->FileGetContents($searchUrl, '', array('Cookie: ' . $cookies));
-							//die($response);								
-							break;
-						default:
-							preg_match('/SAPISID\s*=\s*([^;]+)/i', $cookies, $cmatch);
-							$cmatch[1] = $cmatch[1] ?? '';
-							if (!empty($keyhash))
-							{
-								$isSearch = $reqType == "searchApi";
-								$apiUrl = ($isSearch) ? self::_SEARCH_API_URL : self::_PLAYER_API_URL;
-								$origin = self::_HOMEPAGE_URL;
-								$timestamp = time();
-								$authHash = 'SAPISIDHASH ' . $timestamp . '_' . sha1($timestamp . ' ' . $cmatch[1] . ' ' . $origin);
-								$sessData = $this->TrustedSessData();
-
-								$vidInfoPostData = [
-									'context' => [
-										'client' => [
-											'clientName' => $cname,
-											'clientVersion' => $cversion,
-											'hl' => Config::_DEFAULT_LANGUAGE
-										]
-									],
-									'playbackContext' => [
-										'contentPlaybackContext' => [
-											'signatureTimestamp' => $sessData['sigTimestamp'] ?? $sts
-										]
-									],
-									'contentCheckOk' => true,
-									'racyCheckOk' => true
-								];
-								if (!empty($this->_retrySearchParams))
-								{
-									$vidInfoPostData['params'] = $this->_retrySearchParams . '",';
-								}
-								if ($isSearch)
-								{
-									$vidInfoPostData['query'] = $vidIdOrSearchTerm;
-								}
-								else
-								{
-									$vidInfoPostData['videoId'] = $vidIdOrSearchTerm;
-								}
-
-								$vidInfoHeaders = [
-									'Content-Type: application/json',
-									'X-Goog-Api-Key: ' . $keyhash,
-									'Cookie: ' . $cookies,
-									'x-origin: ' . $origin
-								];
-								if (!empty($cmatch[1]))
-								{
-									$vidInfoHeaders[] = 'Authorization: ' . $authHash;
-								}
-
-								if ($client == "web")
-								{
-									$vidInfoPostData['context']['client']['visitorData'] = $sessData['visitorData'] ?? '';
-									$vidInfoPostData['context']['client']['userAgent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36,gzip(gfe)';
-									$vidInfoPostData['context']['user'] = [
-										'lockedSafetyMode' => false
-									];
-									$vidInfoPostData['serviceIntegrityDimensions'] = [
-										"poToken" => $sessData['poToken'] ?? ''
-									];
-									$vidInfoHeaders = array_diff_key($vidInfoHeaders, [1=>1, 2=>2, 4=>4]);
-								}
-
-								//die(print_r($vidInfoHeaders));
-								$response = $this->FileGetContents($apiUrl, json_encode($vidInfoPostData), $vidInfoHeaders);
-								//die($response);
-							}
-							break;
-					}
+					$params = compact('keyhash', 'cookies', 'sts', 'cname', 'cversion');
 				}
-			}	
+			}
+			return $params;
+		}
+		
+		protected function VideoInfoRequest($vidIdOrSearchTerm, $reqType, $client='', $clientInfo=array())
+		{
+			$response = '';
+			$params = $this->VideoInfoRequestParams($client, $clientInfo);
+			if (!empty($params))
+			{
+				extract($params);
+				switch ($reqType)
+				{
+					case "vidPage":													
+						$response = $this->FileGetContents(self::_VID_URL_PREFIX . $vidIdOrSearchTerm . "&hl=" . Config::_DEFAULT_LANGUAGE . "&persist_hl=1", '', array('Cookie: ' . $cookies));
+						//die($response);								
+						break;
+					case "searchPage":
+						$searchUrl = (!empty($this->_retrySearchParams)) ? self::_HOMEPAGE_URL . $this->_retrySearchParams : self::_SEARCH_URL_PREFIX . urlencode($vidIdOrSearchTerm) . "&page=1";
+						$searchUrl .= "&hl=" . Config::_DEFAULT_LANGUAGE . "&persist_hl=1";
+						$response = $this->FileGetContents($searchUrl, '', array('Cookie: ' . $cookies));
+						//die($response);								
+						break;
+					default:
+						preg_match('/SAPISID\s*=\s*([^;]+)/i', $cookies, $cmatch);
+						$cmatch[1] = $cmatch[1] ?? '';
+						if (!empty($keyhash))
+						{
+							$isSearch = $reqType == "searchApi";
+							$apiUrl = ($isSearch) ? self::_SEARCH_API_URL : self::_PLAYER_API_URL;
+							$origin = self::_HOMEPAGE_URL;
+							$timestamp = time();
+							$authHash = 'SAPISIDHASH ' . $timestamp . '_' . sha1($timestamp . ' ' . $cmatch[1] . ' ' . $origin);
+							$sessData = $this->TrustedSessData();
+
+							$vidInfoPostData = [
+								'context' => [
+									'client' => [
+										'clientName' => $cname,
+										'clientVersion' => $cversion,
+										'hl' => Config::_DEFAULT_LANGUAGE
+									]
+								],
+								'playbackContext' => [
+									'contentPlaybackContext' => [
+										'signatureTimestamp' => $sessData['sigTimestamp'] ?? $sts
+									]
+								],
+								'contentCheckOk' => true,
+								'racyCheckOk' => true
+							];
+							if (!empty($this->_retrySearchParams))
+							{
+								$vidInfoPostData['params'] = $this->_retrySearchParams . '",';
+							}
+							if ($isSearch)
+							{
+								$vidInfoPostData['query'] = $vidIdOrSearchTerm;
+							}
+							else
+							{
+								$vidInfoPostData['videoId'] = $vidIdOrSearchTerm;
+							}
+
+							$vidInfoHeaders = [
+								'Content-Type: application/json',
+								'X-Goog-Api-Key: ' . $keyhash,
+								'Cookie: ' . $cookies,
+								'x-origin: ' . $origin
+							];
+							if (!empty($cmatch[1]))
+							{
+								$vidInfoHeaders[] = 'Authorization: ' . $authHash;
+							}
+
+							if ($client == "web")
+							{
+								$vidInfoPostData['context']['client']['visitorData'] = $sessData['visitorData'] ?? '';
+								$vidInfoPostData['context']['client']['userAgent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36,gzip(gfe)';
+								$vidInfoPostData['context']['user'] = [
+									'lockedSafetyMode' => false
+								];
+								$vidInfoPostData['serviceIntegrityDimensions'] = [
+									"poToken" => $sessData['poToken'] ?? ''
+								];
+								$vidInfoHeaders = array_diff_key($vidInfoHeaders, [1=>1, 2=>2, 4=>4]);
+							}
+
+							//die(print_r($vidInfoHeaders));
+							$response = $this->FileGetContents($apiUrl, json_encode($vidInfoPostData), $vidInfoHeaders);
+							//die($response);
+						}
+						break;
+				}
+			}
 			$this->_videoWebpage = trim($response);
 			return trim($response);
 		}
@@ -745,7 +757,8 @@
 			}
 			$this->_signatures[$vars['itag']] = $vars[$sigParamName];
 
-			if (isset($vars['c']) && preg_match('/^(' . preg_quote($this->_apiClients['web']['name'], "/") . ')$/i', $vars['c']) == 1 && isset($vars['n']))
+			$params = $this->VideoInfoRequestParams("web", $this->_apiClients['web']);
+			if (isset($vars['c'], $vars['n']) && !empty($params) && preg_match('/^(' . preg_quote($params['cname'], "/") . ')$/i', $vars['c']) == 1)
 			{
 				$vars['n'] = $this->DecryptNSigCypher($vars['n']);
 				$vars['pot'] = $this->TrustedSessData('poToken');
