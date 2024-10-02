@@ -207,17 +207,17 @@
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_USERAGENT, Config::_REQUEST_USER_AGENT);
-				if (((Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube")
+				if ((Config::_ENABLE_PROXY_SUPPORT || (Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube")
 				{
 					$dbTableName = '_DB_IPS_TABLE' . (($isSearchScrapeReq) ? '2' : '');
-					if ($converter->GetOutgoingIP() == array() || $tries > 0) $converter->SetOutgoingIP($dbTableName);
+					if (!Config::_ENABLE_PROXY_SUPPORT && ($converter->GetOutgoingIP() == array() || $tries > 0)) $converter->SetOutgoingIP($dbTableName);
 					if (!empty($this->_videoWebpageUrl) && !empty($this->_videoWebpage))
 					{					
 						$videoWebpage = $this->_videoWebpage;
 						$this->_videoWebpage = '';
 						return $videoWebpage;
 					}
-					$currentIP = $converter->GetOutgoingIP();
+					$currentIP = (Config::_ENABLE_PROXY_SUPPORT) ? $this->ParseProxyStr(Config::_HTTP_PROXY) : $converter->GetOutgoingIP();
 					$isProxy = !empty($currentIP['port']) || !empty($currentIP['proxy_user']) || !empty($currentIP['proxy_pass']);
 					curl_setopt($ch, CURLOPT_REFERER, '');
 					if ($isProxy)
@@ -254,7 +254,7 @@
 					curl_setopt($ch, CURLOPT_HTTPHEADER, $reqHeaders);
 				}				
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-				if (Config::_REQUEST_IP_VERSION != -1)
+				if (!Config::_ENABLE_PROXY_SUPPORT && Config::_REQUEST_IP_VERSION != -1)
 				{
 					curl_setopt($ch, CURLOPT_IPRESOLVE, constant("CURL_IPRESOLVE_V" . (string)Config::_REQUEST_IP_VERSION));
 				}
@@ -275,7 +275,7 @@
 				curl_close($ch);
 				$tries++;
 			}
-			while (((Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube" && $tries < Config::_MAX_CURL_TRIES && ($this->_isCurlError || $curlInfo['http_code'] == '403' || $curlInfo['http_code'] == '429' || $curlInfo['http_code'] == '400' || empty($file_contents) || preg_match(YouTube::_CAPTCHA_PATTERN, $file_contents) == 1 || (preg_match(YouTube::_VID_URL_PATTERN, $url) == 1 && preg_match(YouTube::_AGE_GATE_PATTERN, $file_contents) != 1 && preg_match(YouTube::_VID_INFO_PATTERN2, $file_contents) != 1)));
+			while ((Config::_ENABLE_PROXY_SUPPORT || (Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube" && $tries < Config::_MAX_CURL_TRIES && ($this->_isCurlError || $curlInfo['http_code'] == '403' || $curlInfo['http_code'] == '429' || $curlInfo['http_code'] == '400' || empty($file_contents) || preg_match(YouTube::_CAPTCHA_PATTERN, $file_contents) == 1 || (preg_match(YouTube::_VID_URL_PATTERN, $url) == 1 && preg_match(YouTube::_AGE_GATE_PATTERN, $file_contents) != 1 && preg_match(YouTube::_VID_INFO_PATTERN2, $file_contents) != 1)));
 
 			return $file_contents;
 		}
@@ -284,7 +284,33 @@
 		{
 			$this->_headers[] = $headr;
 			return strlen($headr);				
-		}		
+		}
+		
+		protected function ParseProxyStr($proxyStr)
+		{
+			$parsed = ['ip' => '', 'port' => '', 'proxy_user' => '', 'proxy_pass' => ''];
+			if (preg_match('/^((https?:\/\/)(.+))$/', $proxyStr, $matches) == 1)
+			{
+				$strParts = (strpos($matches[3], "@") !== false) ? explode("@", $matches[3]) : [$matches[3]];
+				$allParts = [];
+				foreach ($strParts as $part)
+				{
+					$pieces = explode(":", $part);
+					$allParts = (count($pieces) == 2) ? array_merge($allParts, $pieces) : $allParts;
+				}
+				$numParts = count($allParts);
+				switch ($numParts)
+				{
+					case 2:
+						$parsed = ['ip' => $allParts[0], 'port' => $allParts[1], 'proxy_user' => '', 'proxy_pass' => ''];
+						break;
+					case 4:
+						$parsed = ['ip' => $allParts[2], 'port' => $allParts[3], 'proxy_user' => $allParts[0], 'proxy_pass' => $allParts[1]];
+						break
+				}
+			}
+			return $parsed;
+		}
 
 		// Force child classes to define these methods
 		abstract public function RetrieveVidInfo($vidUrl);
