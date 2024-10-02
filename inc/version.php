@@ -1,1 +1,1 @@
-<?php define('SOFTWARE_VERSION', '1.73'); ?>
+<?php define('SOFTWARE_VERSION', '1.74'); ?>

@@ -2,6 +2,17 @@
 
 ## Changelog:
 
+### v1.74
+
+Added:
+- HTTP Proxy support for YouTube requests
+  - For proxy config and troubleshooting instructions, see https://github.com/PureDevLabs/TubeMediaConverter/discussions/14
+- Better YouTube client name detection
+
+Full Changelog: [v1.73...v1.74](https://github.com/PureDevLabs/TubeMediaConverter/compare/v1.73...v1.74)
+
+---
+
 ### v1.73
 
 Fixes:
