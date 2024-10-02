@@ -306,7 +306,7 @@
 						break;
 					case 4:
 						$parsed = ['ip' => $allParts[2], 'port' => $allParts[3], 'proxy_user' => $allParts[0], 'proxy_pass' => $allParts[1]];
-						break
+						break;
 				}
 			}
 			return $parsed;

@@ -141,7 +141,7 @@
 		// Enable "non-DASH", composite video + audio downloads 
 		// No FFmpeg is required.
 		// (This is typically lower quality video, but YouTube Direct download is available.)
-		const _ENABLE_NONDASH_VIDEO = true;
+		const _ENABLE_NONDASH_VIDEO = false;
 		
 		// Enable the download of merged "video streams"
 		// Video-only and audio-only tracks are combined via FFmpeg stream copy.
