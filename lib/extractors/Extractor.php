@@ -207,7 +207,7 @@
 				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				curl_setopt($ch, CURLOPT_USERAGENT, Config::_REQUEST_USER_AGENT);
-				if ((Config::_ENABLE_PROXY_SUPPORT || (Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube")
+				if (((Config::_ENABLE_PROXY_SUPPORT && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_VIDEOS && !$isSearchScrapeReq) || (Config::_ENABLE_IP_ROTATION_FOR_SEARCH && Config::_ENABLE_SEARCH_SCRAPING && $isSearchScrapeReq)) && $converter->GetCurrentVidHost() == "YouTube")
 				{
 					$dbTableName = '_DB_IPS_TABLE' . (($isSearchScrapeReq) ? '2' : '');
 					if (!Config::_ENABLE_PROXY_SUPPORT && ($converter->GetOutgoingIP() == array() || $tries > 0)) $converter->SetOutgoingIP($dbTableName);
@@ -254,7 +254,7 @@
 					curl_setopt($ch, CURLOPT_HTTPHEADER, $reqHeaders);
 				}				
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-				if (!Config::_ENABLE_PROXY_SUPPORT && Config::_REQUEST_IP_VERSION != -1)
+				if ((!Config::_ENABLE_PROXY_SUPPORT || (Config::_ENABLE_PROXY_SUPPORT && $isSearchScrapeReq)) && Config::_REQUEST_IP_VERSION != -1)
 				{
 					curl_setopt($ch, CURLOPT_IPRESOLVE, constant("CURL_IPRESOLVE_V" . (string)Config::_REQUEST_IP_VERSION));
 				}
